@@ -1,0 +1,22 @@
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { $t } from '@/locales';
+
+defineOptions({ name: 'PinToggler' });
+
+const props = defineProps<Props>();
+
+interface Props {
+  pin?: boolean;
+}
+
+const icon = computed(() => (props.pin ? 'mdi-pin-off' : 'mdi-pin'));
+</script>
+
+<template>
+  <ButtonIcon :tooltip-content="pin ? $t('icon.pin') : $t('icon.unpin')" tooltip-placement="bottomLeft" trigger-parent>
+    <SvgIcon :icon="icon" />
+  </ButtonIcon>
+</template>
+
+<style scoped></style>

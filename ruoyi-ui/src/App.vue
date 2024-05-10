@@ -1,28 +1,28 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { ConfigProvider } from 'ant-design-vue';
+import { useAppStore } from './store/modules/app';
+import { useThemeStore } from './store/modules/theme';
+import { antdLocales } from './locales/antd';
+
+defineOptions({
+  name: 'App'
+});
+
+const appStore = useAppStore();
+const themeStore = useThemeStore();
+
+const antdLocale = computed(() => {
+  return antdLocales[appStore.locale];
+});
+</script>
+
 <template>
-  <div id="app">
-    <router-view />
-    <theme-picker />
-  </div>
+  <ConfigProvider :theme="themeStore.antdTheme" :locale="antdLocale">
+    <AppProvider>
+      <RouterView class="bg-layout" />
+    </AppProvider>
+  </ConfigProvider>
 </template>
 
-<script>
-import ThemePicker from "@/components/ThemePicker";
-
-export default {
-  name: "App",
-  components: { ThemePicker },
-  metaInfo() {
-    return {
-      title: this.$store.state.settings.dynamicTitle && this.$store.state.settings.title,
-      titleTemplate: title => {
-        return title ? `${title} - ${process.env.VUE_APP_TITLE}` : process.env.VUE_APP_TITLE
-      }
-    }
-  }
-};
-</script>
-<style scoped>
-#app .theme-picker {
-  display: none;
-}
-</style>
+<style scoped></style>
