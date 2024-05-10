@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'SoybeanAdmin'
+    title: 'RuoYiCloud-Vue-AntD'
   },
   common: {
     tip: 'Tip',
@@ -136,7 +136,8 @@ const local: App.I18n.Schema = {
         back: 'Back',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
-        welcomeBack: 'Welcome back, {userName} !'
+        welcomeBack: 'Welcome back, {userName} !',
+        checkCode: 'Please check the verification code'
       },
       pwdLogin: {
         title: 'Password Login',

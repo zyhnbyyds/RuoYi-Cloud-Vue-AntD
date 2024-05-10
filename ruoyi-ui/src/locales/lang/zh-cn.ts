@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Soybean 管理系统'
+    title: 'RuoYiCloud-Vue-AntD'
   },
   common: {
     tip: '提示',
@@ -136,7 +136,8 @@ const local: App.I18n.Schema = {
         back: '返回',
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
-        welcomeBack: '欢迎回来，{userName} ！'
+        welcomeBack: '欢迎回来，{userName} ！',
+        checkCode: '请输入图形验证码'
       },
       pwdLogin: {
         title: '密码登录',

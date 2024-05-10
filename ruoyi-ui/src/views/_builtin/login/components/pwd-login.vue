@@ -21,8 +21,8 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  userName: 'Soybean',
-  password: '123456'
+  userName: '',
+  password: ''
 });
 
 const rules: Record<keyof FormModel, App.Global.FormRule[]> = {
@@ -42,12 +42,16 @@ async function handleSubmit() {
       <AInput v-model:value="model.userName" size="large" :placeholder="$t('page.login.common.userNamePlaceholder')" />
     </AFormItem>
     <AFormItem name="password">
+      <AInputPassword v-model:value="model.password" size="large" :placeholder="$t('page.login.common.checkCode')" />
+    </AFormItem>
+    <AFormItem name="password">
       <AInputPassword
         v-model:value="model.password"
         size="large"
         :placeholder="$t('page.login.common.passwordPlaceholder')"
       />
     </AFormItem>
+
     <ASpace direction="vertical" size="large" class="w-full">
       <div class="flex-y-center justify-between">
         <ACheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</ACheckbox>

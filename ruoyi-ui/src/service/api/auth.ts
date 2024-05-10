@@ -48,3 +48,8 @@ export function fetchDebugAxios() {
     method: 'post'
   });
 }
+
+/** Get check code */
+export function doGetCheckCode() {
+  return request<App.Service.Response<string>>('/auth/getCheckCode');
+}
