@@ -420,13 +420,13 @@ declare namespace App {
     type ServiceConfigMap = Record<EnvType, ServiceConfig>;
 
     /** The backend service response data */
-    type Response<T = unknown> = {
+    type Response<T = unknown, E = unknown> = {
       /** The backend service response code */
       code: string;
       /** The backend service response message */
-      message: string;
+      msg: string;
       /** The backend service response data */
       data: T;
-    };
+    } & E;
   }
 }

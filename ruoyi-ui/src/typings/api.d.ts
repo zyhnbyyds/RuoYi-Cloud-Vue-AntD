@@ -11,14 +11,21 @@ declare namespace Api {
    */
   namespace Auth {
     interface LoginToken {
-      token: string;
+      access_token: string;
       refreshToken: string;
     }
 
     interface UserInfo {
       userId: string;
-      userName: string;
+      username: string;
       roles: string[];
+    }
+
+    interface LoginBody {
+      username: string;
+      password: string;
+      uuid: string;
+      code: string;
     }
   }
 

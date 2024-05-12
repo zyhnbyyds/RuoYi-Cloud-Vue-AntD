@@ -8,7 +8,7 @@ export function createServiceConfig(env: Env.ImportMeta) {
 
   const serviceConfigMap: App.Service.ServiceConfigMap = {
     dev: {
-      baseURL: 'http://localhost:9080',
+      baseURL: 'http://localhost:8080',
       otherBaseURL: {
         demo: 'http://localhost:9528'
       }

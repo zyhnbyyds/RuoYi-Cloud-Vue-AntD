@@ -5,7 +5,7 @@ import { $t } from '@/locales';
 
 export function useFormRules() {
   const constantRules = {
-    userName: [
+    username: [
       createRequiredRule($t('form.userName.required')),
       {
         pattern: REG_USER_NAME,

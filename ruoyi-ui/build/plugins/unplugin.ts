@@ -51,7 +51,14 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
         'vitest',
         '@vueuse/core',
         'pinia',
-        { 'lodash-es': ['cloneDeep', 'assign', 'omit', 'pick'] }
+        { 'lodash-es': ['cloneDeep', 'assign', 'omit', 'pick'] },
+        {
+          'ant-design-vue': [
+            ['message', '$message'],
+            ['notification', '$notification'],
+            ['modal', '$modal']
+          ]
+        }
       ],
       dts: 'src/typings/auto-imports.d.ts'
     })

@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import type { Component } from 'vue';
 import { getColorPalette, mixColor } from '@sa/utils';
 import { $t } from '@/locales';
-import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { loginModuleRecord } from '@/constants/app';
 import PwdLogin from './components/pwd-login.vue';
@@ -21,7 +20,6 @@ const props = withDefaults(defineProps<Props>(), {
   module: 'pwd-login'
 });
 
-const appStore = useAppStore();
 const themeStore = useThemeStore();
 
 interface LoginModule {

@@ -41,6 +41,12 @@ export function createRequest(axiosConfig?: CreateAxiosDefaults, options?: Parti
       const backendSuccess = opts.onBackendSuccess(response);
 
       if (backendSuccess) {
+        if (response.data && response.data.code >= 400) {
+          const { code, msg } = response.data;
+          // @ts-expect-error ts-migrate(2339) FIXME: Property 'httpCode' does not exist on type 'unknown'.
+          $message.error(msg || response.data[$t(`httpCode.${code}`)]);
+        }
+
         return Promise.resolve(response);
       }
 

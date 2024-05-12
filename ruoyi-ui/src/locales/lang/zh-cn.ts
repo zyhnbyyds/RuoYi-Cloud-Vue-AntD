@@ -137,7 +137,7 @@ const local: App.I18n.Schema = {
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
         welcomeBack: '欢迎回来，{userName} ！',
-        checkCode: '请输入图形验证码'
+        checkCode: '请输入验证码'
       },
       pwdLogin: {
         title: '密码登录',
@@ -209,6 +209,19 @@ const local: App.I18n.Schema = {
     expand: '展开菜单',
     pin: '固定',
     unpin: '取消固定'
+  },
+  httpCode: {
+    400: '请求错误',
+    401: '未授权，请登录',
+    403: '拒绝访问',
+    404: '请求地址出错',
+    408: '请求超时',
+    500: '服务器内部错误',
+    501: '服务未实现',
+    502: '网关错误',
+    503: '服务不可用',
+    504: '网关超时',
+    505: 'HTTP版本不受支持'
   }
 };
 

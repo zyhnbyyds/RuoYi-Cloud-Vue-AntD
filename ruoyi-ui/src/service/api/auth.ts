@@ -6,19 +6,23 @@ import { axios, request } from '../request';
  * @param userName User name
  * @param password Password
  */
-export function fetchLogin(userName: string, password: string) {
+export function doPostLogin(body: Api.Auth.LoginBody) {
   return request<App.Service.Response<Api.Auth.LoginToken>>('/auth/login', {
     method: 'post',
-    body: {
-      userName,
-      password
-    }
+    body
+  });
+}
+
+/** logout */
+export function fetchLogout() {
+  return request<App.Service.Response<null>>('/auth/logout', {
+    method: 'delete'
   });
 }
 
 /** Get user info */
-export function fetchGetUserInfo() {
-  return request<App.Service.Response<Api.Auth.UserInfo>>('/auth/getUserInfo');
+export function doGetUserInfo() {
+  return request<App.Service.Response<Api.Auth.UserInfo>>('/system/user/getInfo');
 }
 
 /**
@@ -51,5 +55,5 @@ export function fetchDebugAxios() {
 
 /** Get check code */
 export function doGetCheckCode() {
-  return request<App.Service.Response<string>>('/auth/getCheckCode');
+  return axios<App.Service.Response<null, { img: string; uuid: string }>>('/code');
 }

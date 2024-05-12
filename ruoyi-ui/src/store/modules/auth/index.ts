@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
 import { SetupStoreId } from '@/enum';
 import { useRouterPush } from '@/hooks/common/router';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { doGetUserInfo, doPostLogin, fetchLogout } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { useRouteStore } from '../route';
@@ -29,6 +29,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
     authStore.$reset();
 
+    fetchLogout();
+
     if (!route.value.meta.constant) {
       await toLogin();
     }
@@ -42,22 +44,22 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    * @param userName User name
    * @param password Password
    */
-  async function login(userName: string, password: string) {
+  async function login(loginForm: Api.Auth.LoginBody) {
     startLoading();
 
     try {
-      const { data: loginToken } = await fetchLogin(userName, password);
+      const { data } = await doPostLogin(loginForm);
 
-      await loginByToken(loginToken);
+      await loginByToken(data);
 
       await routeStore.initAuthRoute();
 
       await redirectFromLogin();
 
       if (routeStore.isInitAuthRoute) {
-        window.$notification?.success({
+        $notification?.success({
           message: $t('page.login.common.loginSuccess'),
-          description: $t('page.login.common.welcomeBack', { userName: userInfo.userName })
+          description: $t('page.login.common.welcomeBack', { userName: userInfo.username })
         });
       }
     } catch {
@@ -69,16 +71,16 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   async function loginByToken(loginToken: Api.Auth.LoginToken) {
     // 1. stored in the localStorage, the later requests need it in headers
-    localStg.set('token', loginToken.token);
+    localStg.set('token', loginToken.access_token);
     localStg.set('refreshToken', loginToken.refreshToken);
 
-    const { data: info } = await fetchGetUserInfo();
+    const { data: info } = await doGetUserInfo();
 
     // 2. store user info
     localStg.set('userInfo', info);
 
     // 3. update auth route
-    token.value = loginToken.token;
+    token.value = loginToken.access_token;
     Object.assign(userInfo, info);
   }
 

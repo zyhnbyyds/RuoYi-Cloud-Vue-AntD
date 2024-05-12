@@ -9,16 +9,6 @@ defineOptions({
 const ContextHolder = defineComponent({
   name: 'ContextHolder',
   setup() {
-    const { message, modal, notification } = App.useApp();
-
-    function register() {
-      window.$message = message;
-      window.$modal = modal;
-      window.$notification = notification;
-    }
-
-    register();
-
     return () => createTextVNode();
   }
 });
