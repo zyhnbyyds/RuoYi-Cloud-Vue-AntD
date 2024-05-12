@@ -7,7 +7,7 @@ import { SetupStoreId } from '@/enum';
 import { router } from '@/router';
 import { ROOT_ROUTE, createRoutes, getAuthVueRoutes } from '@/router/routes';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
-import { fetchGetUserRoutes, fetchIsRouteExist } from '@/service/api';
+import { doGetUserRoutes, fetchIsRouteExist } from '@/service/api';
 import { useAppStore } from '../app';
 import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
@@ -166,15 +166,13 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** Init dynamic auth route */
   async function initDynamicAuthRoute() {
-    const {
-      data: { routes, home }
-    } = await fetchGetUserRoutes();
+    const { data: routes } = await doGetUserRoutes();
 
-    handleAuthRoutes(routes);
+    handleAuthRoutes(routes as any);
 
-    setRouteHome(home);
+    setRouteHome('home');
 
-    handleUpdateRootRouteRedirect(home);
+    handleUpdateRootRouteRedirect('home');
 
     setIsInitAuthRoute(true);
   }

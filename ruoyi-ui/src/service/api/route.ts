@@ -1,12 +1,8 @@
 import { request } from '../request';
 
-/**
- * Get user routes
- *
- * @param example Whether to use example data, default: 0
- */
-export function fetchGetUserRoutes(example: '0' | '1' = '0') {
-  return request<App.Service.Response<Api.Route.UserRoute>>('/route/getUserRoutes', { params: { example } });
+/** Get user routes */
+export function doGetUserRoutes() {
+  return request<App.Service.Response<Api.Route.UserRoute>>('/system/menu/getRouters');
 }
 
 /**
