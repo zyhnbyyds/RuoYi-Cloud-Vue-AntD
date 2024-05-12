@@ -8,8 +8,6 @@ defineOptions({
 
 defineProps<PageTabProps>();
 
-defineSlots<Slots>();
-
 type SlotFn = (props?: Record<string, unknown>) => any;
 
 type Slots = {
@@ -32,11 +30,13 @@ type Slots = {
    */
   suffix?: SlotFn;
 };
+
+defineSlots<Slots>();
 </script>
 
 <template>
   <div
-    class=":soy: relative inline-flex justify-center items-center gap-12px px-12px py-4px border-1px border-solid rounded-4px cursor-pointer whitespace-nowrap"
+    class=":soy: relative inline-flex cursor-pointer items-center justify-center gap-12px whitespace-nowrap border-1px rounded-4px border-solid px-12px py-4px"
     :class="[
       style['button-tab'],
       { [style['button-tab_dark']]: darkMode },

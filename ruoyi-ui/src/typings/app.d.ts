@@ -169,7 +169,7 @@ declare namespace App {
 
     /** Tab route */
     type TabRoute = Pick<RouteLocationNormalizedLoaded, 'name' | 'path' | 'meta'> &
-      Partial<Pick<RouteLocationNormalizedLoaded, 'fullPath' | 'query'>>;
+      Partial<Pick<RouteLocationNormalizedLoaded, 'fullPath' | 'query' | 'matched'>>;
 
     /** The global tab */
     type Tab = {
@@ -183,6 +183,12 @@ declare namespace App {
        * If set, the tab label will be replaced by this value
        */
       newLabel?: string;
+      /**
+       * The old tab label
+       *
+       * when reset the tab label, the tab label will be replaced by this value
+       */
+      oldLabel?: string;
       /** The tab route key */
       routeKey: LastLevelRouteKey;
       /** The tab route path */
@@ -241,23 +247,52 @@ declare namespace App {
         title: string;
       };
       common: {
-        tip: string;
+        action: string;
         add: string;
         addSuccess: string;
-        edit: string;
-        editSuccess: string;
+        backToHome: string;
+        batchDelete: string;
+        cancel: string;
+        close: string;
+        check: string;
+        columnSetting: string;
+        config: string;
+        confirm: string;
         delete: string;
         deleteSuccess: string;
-        batchDelete: string;
-        confirm: string;
-        cancel: string;
-        pleaseCheckValue: string;
-        action: string;
-        backToHome: string;
-        lookForward: string;
-        userCenter: string;
+        confirmDelete: string;
+        edit: string;
+        index: string;
+        keywordSearch: string;
         logout: string;
         logoutConfirm: string;
+        lookForward: string;
+        modify: string;
+        modifySuccess: string;
+        noData: string;
+        operate: string;
+        pleaseCheckValue: string;
+        refresh: string;
+        reset: string;
+        search: string;
+        switch: string;
+        tip: string;
+        trigger: string;
+        update: string;
+        updateSuccess: string;
+        userCenter: string;
+        yesOrNo: {
+          yes: string;
+          no: string;
+        };
+      };
+      request: {
+        logout: string;
+        logoutMsg: string;
+        logoutWithModal: string;
+        logoutWithModalMsg: string;
+        refreshToken: string;
+        tokenExpired: string;
       };
       theme: {
         themeSchema: { title: string } & Record<UnionKey.ThemeScheme, string>;
@@ -339,6 +374,8 @@ declare namespace App {
           codeLogin: {
             title: string;
             getCode: string;
+            reGetCode: string;
+            sendCodeSuccess: string;
             imageCodePlaceholder: string;
           };
           register: {
@@ -354,11 +391,199 @@ declare namespace App {
             title: string;
           };
         };
+        about: {
+          title: string;
+          introduction: string;
+          projectInfo: {
+            title: string;
+            version: string;
+            latestBuildTime: string;
+            githubLink: string;
+            previewLink: string;
+          };
+          prdDep: string;
+          devDep: string;
+        };
+        home: {
+          greeting: string;
+          weatherDesc: string;
+          projectCount: string;
+          todo: string;
+          message: string;
+          downloadCount: string;
+          registerCount: string;
+          schedule: string;
+          study: string;
+          work: string;
+          rest: string;
+          entertainment: string;
+          visitCount: string;
+          turnover: string;
+          dealCount: string;
+          projectNews: {
+            title: string;
+            moreNews: string;
+            desc1: string;
+            desc2: string;
+            desc3: string;
+            desc4: string;
+            desc5: string;
+          };
+          creativity: string;
+        };
+        function: {
+          tab: {
+            tabOperate: {
+              title: string;
+              addTab: string;
+              addTabDesc: string;
+              closeTab: string;
+              closeCurrentTab: string;
+              closeAboutTab: string;
+              addMultiTab: string;
+              addMultiTabDesc1: string;
+              addMultiTabDesc2: string;
+            };
+            tabTitle: {
+              title: string;
+              changeTitle: string;
+              change: string;
+              resetTitle: string;
+              reset: string;
+            };
+          };
+          multiTab: {
+            routeParam: string;
+            backTab: string;
+          };
+          toggleAuth: {
+            toggleAccount: string;
+            authHook: string;
+            superAdminVisible: string;
+            adminVisible: string;
+            adminOrUserVisible: string;
+          };
+        };
+        manage: {
+          common: {
+            status: {
+              enable: string;
+              disable: string;
+            };
+          };
+          role: {
+            title: string;
+            roleName: string;
+            roleCode: string;
+            roleStatus: string;
+            roleDesc: string;
+            form: {
+              roleName: string;
+              roleCode: string;
+              roleStatus: string;
+              roleDesc: string;
+            };
+            addRole: string;
+            editRole: string;
+            menuAuth: string;
+            buttonAuth: string;
+          };
+          user: {
+            title: string;
+            username: string;
+            userGender: string;
+            nickName: string;
+            userPhone: string;
+            userEmail: string;
+            userStatus: string;
+            userRole: string;
+            form: {
+              username: string;
+              userGender: string;
+              nickName: string;
+              userPhone: string;
+              userEmail: string;
+              userStatus: string;
+              userRole: string;
+            };
+            addUser: string;
+            editUser: string;
+            gender: {
+              male: string;
+              female: string;
+            };
+          };
+          menu: {
+            home: string;
+            title: string;
+            id: string;
+            parentId: string;
+            menuType: string;
+            menuName: string;
+            routeName: string;
+            routePath: string;
+            routeParams: string;
+            layout: string;
+            page: string;
+            i18nKey: string;
+            icon: string;
+            localIcon: string;
+            iconTypeTitle: string;
+            order: string;
+            keepAlive: string;
+            href: string;
+            hideInMenu: string;
+            activeMenu: string;
+            multiTab: string;
+            fixedIndexInTab: string;
+            button: string;
+            buttonCode: string;
+            buttonDesc: string;
+            menuStatus: string;
+            form: {
+              home: string;
+              menuType: string;
+              menuName: string;
+              routeName: string;
+              routePath: string;
+              layout: string;
+              page: string;
+              i18nKey: string;
+              icon: string;
+              localIcon: string;
+              order: string;
+              keepAlive: string;
+              href: string;
+              hideInMenu: string;
+              activeMenu: string;
+              multiTab: string;
+              fixedInTab: string;
+              fixedIndexInTab: string;
+              button: string;
+              buttonCode: string;
+              buttonDesc: string;
+              menuStatus: string;
+            };
+            addMenu: string;
+            editMenu: string;
+            addChildMenu: string;
+            type: {
+              directory: string;
+              menu: string;
+            };
+            iconType: {
+              iconify: string;
+              local: string;
+            };
+          };
+        };
       };
       form: {
-        userName: FormMsg;
+        required: string;
+        username: FormMsg;
         phone: FormMsg;
         pwd: FormMsg;
+        confirmPwd: FormMsg;
         code: FormMsg;
         email: FormMsg;
       };
@@ -402,31 +627,48 @@ declare namespace App {
 
   /** Service namespace */
   namespace Service {
-    /** The backend service env type */
-    type EnvType = 'dev' | 'test' | 'prod';
-
     /** Other baseURL key */
     type OtherBaseURLKey = 'demo';
 
-    /** The backend service config */
-    interface ServiceConfig<T extends OtherBaseURLKey = OtherBaseURLKey> {
+    interface ServiceConfigItem {
       /** The backend service base url */
       baseURL: string;
-      /** Other backend service base url map */
-      otherBaseURL: Record<T, string>;
+      /** The proxy pattern of the backend service base url */
+      proxyPattern: string;
     }
 
-    /** The backend service config map */
-    type ServiceConfigMap = Record<EnvType, ServiceConfig>;
+    interface OtherServiceConfigItem extends ServiceConfigItem {
+      key: OtherBaseURLKey;
+    }
+
+    /** The backend service config */
+    interface ServiceConfig extends ServiceConfigItem {
+      /** Other backend service config */
+      other: OtherServiceConfigItem[];
+    }
+
+    interface SimpleServiceConfig extends Pick<ServiceConfigItem, 'baseURL'> {
+      other: Record<OtherBaseURLKey, string>;
+    }
 
     /** The backend service response data */
-    type Response<T = unknown, E = unknown> = {
+    type Response<T = unknown> = {
       /** The backend service response code */
       code: string;
       /** The backend service response message */
       msg: string;
       /** The backend service response data */
       data: T;
-    } & E;
+    };
+
+    /** The demo backend service response data */
+    type DemoResponse<T = unknown> = {
+      /** The backend service response code */
+      status: string;
+      /** The backend service response message */
+      message: string;
+      /** The backend service response data */
+      result: T;
+    };
   }
 }

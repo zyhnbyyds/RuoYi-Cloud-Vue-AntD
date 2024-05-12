@@ -73,7 +73,8 @@ function getContextMenuDisabledKeys(tabId: string) {
   const disabledKeys: App.Global.DropdownKey[] = [];
 
   if (tabStore.isTabRetain(tabId)) {
-    disabledKeys.push('closeCurrent');
+    const homeDisable: App.Global.DropdownKey[] = ['closeCurrent', 'closeLeft'];
+    disabledKeys.push(...homeDisable);
   }
 
   return disabledKeys;
@@ -111,12 +112,12 @@ init();
 </script>
 
 <template>
-  <DarkModeContainer class="flex-y-center wh-full px-16px shadow-tab">
-    <div ref="bsWrapper" class="flex-1-hidden h-full">
+  <DarkModeContainer class="size-full flex-y-center px-16px shadow-tab">
+    <div ref="bsWrapper" class="h-full flex-1-hidden">
       <BetterScroll ref="bsScroll" :options="{ scrollX: true, scrollY: false, click: appStore.isMobile }">
         <div
           ref="tabRef"
-          class="flex h-full pr-18px"
+          class="h-full flex pr-18px"
           :class="[themeStore.tab.mode === 'chrome' ? 'items-end' : 'items-center gap-12px']"
         >
           <ContextMenu
@@ -142,7 +143,7 @@ init();
                   class="inline-block align-text-bottom text-16px"
                 />
               </template>
-              {{ tab.label }}
+              <div class="max-w-240px ellipsis-text">{{ tab.label }}</div>
             </PageTab>
           </ContextMenu>
         </div>

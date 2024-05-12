@@ -1,28 +1,30 @@
-import { axios, request } from '../request';
+import { request } from '../request';
 
 /**
  * Login
  *
- * @param userName User name
+ * @param username User name
  * @param password Password
  */
-export function doPostLogin(body: Api.Auth.LoginBody) {
-  return request<App.Service.Response<Api.Auth.LoginToken>>('/auth/login', {
+export function fetchLogin(body: Api.Auth.LoginBody) {
+  return request<Api.Auth.LoginToken>({
+    url: '/auth/login',
     method: 'post',
-    body
+    data: body
   });
 }
 
 /** logout */
 export function fetchLogout() {
-  return request<App.Service.Response<null>>('/auth/logout', {
+  return request<App.Service.Response<null>>({
+    url: '/auth/logout',
     method: 'delete'
   });
 }
 
 /** Get user info */
 export function doGetUserInfo() {
-  return request<App.Service.Response<Api.Auth.UserInfo>>('/system/user/getInfo');
+  return request<Api.Auth.UserInfo>({ url: '/system/user/getInfo' });
 }
 
 /**
@@ -31,29 +33,28 @@ export function doGetUserInfo() {
  * @param refreshToken Refresh token
  */
 export function fetchRefreshToken(refreshToken: string) {
-  return request<App.Service.Response<Api.Auth.LoginToken>>('/auth/refreshToken', {
+  return request<Api.Auth.LoginToken>({
+    url: '/auth/refreshToken',
     method: 'post',
-    body: {
+    data: {
       refreshToken
     }
   });
 }
 
-export function fetchDebug() {
-  return request<App.Service.Response<string>>('/debug-post', {
-    method: 'post',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body: 'a=1'
-  });
-}
-
-export function fetchDebugAxios() {
-  return axios<App.Service.Response<string>>('/debug-post', {
-    method: 'post'
-  });
+/**
+ * return custom backend error
+ *
+ * @param code error code
+ * @param msg error message
+ */
+export function fetchCustomBackendError(code: string, msg: string) {
+  return request({ url: '/auth/error', params: { code, msg } });
 }
 
 /** Get check code */
 export function doGetCheckCode() {
-  return axios<App.Service.Response<null, { img: string; uuid: string }>>('/code');
+  return request<{ uuid: string; img: string }>({
+    url: '/code'
+  });
 }

@@ -17,12 +17,28 @@ declare module "@elegant-router/types" {
   export type RouteMap = {
     "root": "/";
     "not-found": "/:pathMatch(.*)*";
+    "exception": "/exception";
+    "exception_403": "/exception/403";
+    "exception_404": "/exception/404";
+    "exception_500": "/exception/500";
     "403": "/403";
     "404": "/404";
     "500": "/500";
+    "about": "/about";
+    "function": "/function";
+    "function_hide-child": "/function/hide-child";
+    "function_hide-child_one": "/function/hide-child/one";
+    "function_hide-child_three": "/function/hide-child/three";
+    "function_hide-child_two": "/function/hide-child/two";
+    "function_multi-tab": "/function/multi-tab";
+    "function_request": "/function/request";
+    "function_super-page": "/function/super-page";
+    "function_tab": "/function/tab";
+    "function_toggle-auth": "/function/toggle-auth";
     "home": "/home";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "manage": "/manage";
+    "manage_menu": "/manage/menu";
     "manage_role": "/manage/role";
     "manage_route": "/manage/route";
     "manage_user": "/manage/user";
@@ -53,6 +69,10 @@ declare module "@elegant-router/types" {
     RouteKey,
     | "root"
     | "not-found"
+    | "exception"
+    | "exception_403"
+    | "exception_404"
+    | "exception_500"
   >;
 
   /**
@@ -68,6 +88,8 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
+    | "about"
+    | "function"
     | "home"
     | "login"
     | "manage"
@@ -82,6 +104,7 @@ declare module "@elegant-router/types" {
     CustomRouteKey,
     | "root"
     | "not-found"
+    | "exception"
   >;
 
   /**
@@ -93,7 +116,17 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "login"
+    | "about"
+    | "function_hide-child_one"
+    | "function_hide-child_three"
+    | "function_hide-child_two"
+    | "function_multi-tab"
+    | "function_request"
+    | "function_super-page"
+    | "function_tab"
+    | "function_toggle-auth"
     | "home"
+    | "manage_menu"
     | "manage_role"
     | "manage_route"
     | "manage_user-detail"
@@ -110,6 +143,9 @@ declare module "@elegant-router/types" {
     CustomRouteKey,
     | "root"
     | "not-found"
+    | "exception_403"
+    | "exception_404"
+    | "exception_500"
   >;
 
   /**
@@ -238,7 +274,7 @@ declare module "@elegant-router/types" {
           name: K;
           path: RouteMap[K];
           component: `layout.${RouteLayout}`;
-          children: (CustomCenterLevelRoute<GetChildRouteKey<K>> | CustomLastLevelRoute<K>)[];
+          children: (CustomCenterLevelRoute<GetChildRouteKey<K>> | CustomLastLevelRoute<GetChildRouteKey<K>>)[];
         }
       : never;
 

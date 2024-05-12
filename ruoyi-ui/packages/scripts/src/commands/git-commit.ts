@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
-import enquirer from 'enquirer';
-import { bgRed, green, red } from 'kolorist';
+import { prompt } from 'enquirer';
+import { bgRed, green, red, yellow } from 'kolorist';
 import { execCommand } from '../shared';
 import type { CliOption } from '../types';
 
@@ -11,27 +11,33 @@ interface PromptObject {
   description: string;
 }
 
+/**
+ * Git commit with Conventional Commits standard
+ *
+ * @param gitCommitTypes
+ * @param gitCommitScopes
+ */
 export async function gitCommit(
   gitCommitTypes: CliOption['gitCommitTypes'],
   gitCommitScopes: CliOption['gitCommitScopes']
 ) {
-  const typesChoices = gitCommitTypes.map(([name, title]) => {
-    const nameWithSuffix = `${name}:`;
+  const typesChoices = gitCommitTypes.map(([value, msg]) => {
+    const nameWithSuffix = `${value}:`;
 
-    const message = `${nameWithSuffix.padEnd(12)}${title}`;
+    const message = `${nameWithSuffix.padEnd(12)}${msg}`;
 
     return {
-      name,
+      name: value,
       message
     };
   });
 
-  const scopesChoices = gitCommitScopes.map(([name, title]) => ({
-    name,
-    message: `${name.padEnd(30)} (${title})`
+  const scopesChoices = gitCommitScopes.map(([value, msg]) => ({
+    name: value,
+    message: `${value.padEnd(30)} (${msg})`
   }));
 
-  const result = await enquirer.prompt<PromptObject>([
+  const result = await prompt<PromptObject>([
     {
       name: 'types',
       type: 'select',
@@ -47,15 +53,20 @@ export async function gitCommit(
     {
       name: 'description',
       type: 'text',
-      message: 'Please enter a description'
+      message: `Please enter a description (add prefix ${yellow('!')} to indicate breaking change)`
     }
   ]);
 
-  const commitMsg = `${result.types}(${result.scopes}): ${result.description}`;
+  const breaking = result.description.startsWith('!') ? '!' : '';
+
+  const description = result.description.replace(/^!/, '').trim();
+
+  const commitMsg = `${result.types}(${result.scopes})${breaking}: ${description}`;
 
   await execCommand('git', ['commit', '-m', commitMsg], { stdio: 'inherit' });
 }
 
+/** Git commit message verify */
 export async function gitCommitVerify() {
   const gitPath = await execCommand('git', ['rev-parse', '--show-toplevel']);
 
@@ -63,7 +74,7 @@ export async function gitCommitVerify() {
 
   const commitMsg = readFileSync(gitMsgPath, 'utf8').trim();
 
-  const REG_EXP = /(?<type>[a-z]+)(\((?<scope>.+)\))?(?<breaking>!)?: (?<description>.+)/i;
+  const REG_EXP = /(?<type>[a-z]+)(?:\((?<scope>.+)\))?(?<breaking>!)?: (?<description>.+)/i;
 
   if (!REG_EXP.test(commitMsg)) {
     throw new Error(

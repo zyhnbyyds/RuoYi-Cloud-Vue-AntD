@@ -5,7 +5,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useRouteStore } from '@/store/modules/route';
 import { useThemeStore } from '@/store/modules/theme';
 import { useRouterPush } from '@/hooks/common/router';
-import { useMixMenu } from '../../hooks/use-mix-menu';
+import { useMixMenu } from '../../hooks';
 import FirstLevelMenu from './first-level-menu.vue';
 import BaseMenu from './base-menu.vue';
 
@@ -43,7 +43,7 @@ function handleResetActiveMenu() {
 </script>
 
 <template>
-  <div class="flex h-full" @mouseleave="handleResetActiveMenu">
+  <div class="h-full flex" @mouseleave="handleResetActiveMenu">
     <FirstLevelMenu :active-menu-key="activeFirstLevelMenuKey" :inverted="siderInverted" @select="handleSelectMixMenu">
       <slot></slot>
     </FirstLevelMenu>
@@ -52,12 +52,12 @@ function handleResetActiveMenu() {
       :style="{ width: appStore.mixSiderFixed ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
     >
       <DarkModeContainer
-        class="absolute-lt flex-vertical-stretch h-full nowrap-hidden transition-all-300 shadow-sm"
+        class="absolute-lt h-full flex-col-stretch nowrap-hidden shadow-sm transition-all-300"
         :inverted="siderInverted"
         :style="{ width: showDrawer ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
       >
         <header class="flex-y-center justify-between" :style="{ height: themeStore.header.height + 'px' }">
-          <h2 class="text-primary pl-8px text-16px font-bold">{{ $t('system.title') }}</h2>
+          <h2 class="pl-8px text-16px text-primary font-bold">{{ $t('system.title') }}</h2>
           <PinToggler
             :pin="appStore.mixSiderFixed"
             :class="{ 'text-white:88 !hover:text-white': siderInverted }"

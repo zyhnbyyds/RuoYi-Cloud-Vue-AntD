@@ -1,16 +1,20 @@
 import { request } from '../request';
 
-/** Get user routes */
+/** get constant routes */
+export function fetchGetConstantRoutes() {
+  return request<Api.Route.MenuRoute[]>({ url: '/route/getConstantRoutes' });
+}
+
+/** get user routes */
 export function doGetUserRoutes() {
-  return request<App.Service.Response<Api.Route.UserRoute>>('/system/menu/getRouters');
+  return request<Api.Route.UserRoute>({ url: '/system/menu/getRouters' });
 }
 
 /**
- * Whether the route is exist
+ * whether the route is exist
  *
- * @param routeName Route name
- * @param example Whether to use example data, default: 0
+ * @param routeName route name
  */
-export function fetchIsRouteExist(routeName: string, example: '0' | '1' = '0') {
-  return request<App.Service.Response<boolean>>('/route/isRouteExist', { params: { routeName, example } });
+export function fetchIsRouteExist(routeName: string) {
+  return request<boolean>({ url: '/route/isRouteExist', params: { routeName } });
 }

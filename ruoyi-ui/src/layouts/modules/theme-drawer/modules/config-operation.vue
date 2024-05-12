@@ -20,7 +20,7 @@ function initClipboard() {
   });
 
   clipboard.on('success', () => {
-    window.$message?.success($t('theme.configOperation.copySuccessMsg'));
+    $message?.success($t('theme.configOperation.copySuccessMsg'));
   });
 }
 
@@ -36,7 +36,7 @@ function handleReset() {
   themeStore.resetStore();
 
   setTimeout(() => {
-    window.$message?.success($t('theme.configOperation.resetSuccessMsg'));
+    $message?.success($t('theme.configOperation.resetSuccessMsg'));
   }, 50);
 }
 

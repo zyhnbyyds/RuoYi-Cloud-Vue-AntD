@@ -8,20 +8,17 @@ export function presetSoybeanAdmin(): Preset<Theme> {
     name: 'preset-soybean-admin',
     shortcuts: [
       {
-        'wh-full': 'w-full h-full'
-      },
-      {
         'flex-center': 'flex justify-center items-center',
         'flex-x-center': 'flex justify-center',
         'flex-y-center': 'flex items-center',
-        'flex-vertical': 'flex flex-col',
-        'flex-vertical-center': 'flex-center flex-col',
-        'flex-vertical-stretch': 'flex-vertical items-stretch',
+        'flex-col': 'flex flex-col',
+        'flex-col-center': 'flex-center flex-col',
+        'flex-col-stretch': 'flex-col items-stretch',
         'i-flex-center': 'inline-flex justify-center items-center',
         'i-flex-x-center': 'inline-flex justify-center',
         'i-flex-y-center': 'inline-flex items-center',
-        'i-flex-vertical': 'inline-flex flex-col',
-        'i-flex-vertical-stretch': 'i-flex-vertical items-stretch',
+        'i-flex-col': 'flex-col inline-flex',
+        'i-flex-col-stretch': 'i-flex-col items-stretch',
         'flex-1-hidden': 'flex-1 overflow-hidden'
       },
       {
@@ -33,7 +30,7 @@ export function presetSoybeanAdmin(): Preset<Theme> {
         'absolute-tr': 'absolute-rt',
         'absolute-bl': 'absolute-lb',
         'absolute-br': 'absolute-rb',
-        'absolute-center': 'absolute-lt flex-center wh-full',
+        'absolute-center': 'absolute-lt flex-center size-full',
         'fixed-lt': 'fixed left-0 top-0',
         'fixed-lb': 'fixed left-0 bottom-0',
         'fixed-rt': 'fixed right-0 top-0',
@@ -42,7 +39,7 @@ export function presetSoybeanAdmin(): Preset<Theme> {
         'fixed-tr': 'fixed-rt',
         'fixed-bl': 'fixed-lb',
         'fixed-br': 'fixed-rb',
-        'fixed-center': 'fixed-lt flex-center wh-full'
+        'fixed-center': 'fixed-lt flex-center size-full'
       },
       {
         'nowrap-hidden': 'overflow-hidden whitespace-nowrap',

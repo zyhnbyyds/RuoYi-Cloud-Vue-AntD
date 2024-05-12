@@ -7,10 +7,6 @@ defineOptions({
   name: 'LayoutModeCard'
 });
 
-const props = defineProps<Props>();
-
-const emit = defineEmits<Emits>();
-
 interface Props {
   /** Layout mode */
   mode: UnionKey.ThemeLayoutMode;
@@ -18,10 +14,14 @@ interface Props {
   disabled?: boolean;
 }
 
+const props = defineProps<Props>();
+
 interface Emits {
   /** Layout mode change */
   (e: 'update:mode', mode: UnionKey.ThemeLayoutMode): void;
 }
+
+const emit = defineEmits<Emits>();
 
 type LayoutConfig = Record<
   UnionKey.ThemeLayoutMode,
@@ -72,14 +72,14 @@ function handleChangeMode(mode: UnionKey.ThemeLayoutMode) {
     <div
       v-for="(item, key) in layoutConfig"
       :key="key"
-      class="flex border-2px rounded-6px cursor-pointer hover:border-primary"
+      class="flex cursor-pointer border-2px rounded-6px hover:border-primary"
       :class="[mode === key ? 'border-primary' : 'border-transparent']"
       @click="handleChangeMode(key)"
     >
       <ATooltip :placement="item.placement" :title="$t(themeLayoutModeRecord[key])">
         <div
-          class="gap-6px w-96px h-64px p-6px rd-4px shadow dark:shadow-coolGray-5"
-          :class="[key.includes('vertical') ? 'flex' : 'flex-vertical']"
+          class="h-64px w-96px gap-6px rd-4px p-6px shadow dark:shadow-coolGray-5"
+          :class="[key.includes('vertical') ? 'flex' : 'flex-col']"
         >
           <slot :name="key"></slot>
         </div>

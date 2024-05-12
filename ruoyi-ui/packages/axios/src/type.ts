@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 export type ContentType =
   | 'text/html'
@@ -8,7 +8,7 @@ export type ContentType =
   | 'application/x-www-form-urlencoded'
   | 'application/octet-stream';
 
-export interface RequestOption {
+export interface RequestOption<ResponseData = any> {
   /**
    * The hook before request
    *
@@ -16,13 +16,13 @@ export interface RequestOption {
    *
    * @param config Axios config
    */
-  onRequest: (config: InternalAxiosRequestConfig) => Promise<InternalAxiosRequestConfig>;
+  onRequest: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
   /**
    * The hook to check backend response is success or not
    *
    * @param response Axios response
    */
-  onBackendSuccess: (response: AxiosResponse) => boolean;
+  isBackendSuccess: (response: AxiosResponse<ResponseData>) => boolean;
   /**
    * The hook after backend request fail
    *
@@ -30,9 +30,17 @@ export interface RequestOption {
    *
    * @param response Axios response
    * @param instance Axios instance
-   * @returns
    */
-  onBackendFail: (response: AxiosResponse, instance: AxiosInstance) => Promise<AxiosResponse> | Promise<void>;
+  onBackendFail: (
+    response: AxiosResponse<ResponseData>,
+    instance: AxiosInstance
+  ) => Promise<AxiosResponse | null> | Promise<void>;
+  /**
+   * transform backend response when the responseType is json
+   *
+   * @param response Axios response
+   */
+  transformBackendResponse(response: AxiosResponse<ResponseData>): any | Promise<any>;
   /**
    * The hook to handle error
    *
@@ -40,11 +48,54 @@ export interface RequestOption {
    *
    * @param error
    */
-  onError: (error: AxiosError) => Promise<void>;
+  onError: (error: AxiosError<ResponseData>) => void | Promise<void>;
 }
 
-/** The axios instance with cancel request function */
-export type RequestInstance = AxiosInstance & {
+interface ResponseMap {
+  blob: Blob;
+  text: string;
+  arrayBuffer: ArrayBuffer;
+  stream: ReadableStream<Uint8Array>;
+  document: Document;
+}
+export type ResponseType = keyof ResponseMap | 'json';
+
+export type MappedType<R extends ResponseType, JsonType = any> = R extends keyof ResponseMap
+  ? ResponseMap[R]
+  : JsonType;
+
+export type CustomAxiosRequestConfig<R extends ResponseType = 'json'> = Omit<AxiosRequestConfig, 'responseType'> & {
+  responseType?: R;
+};
+
+export interface RequestInstanceCommon<T> {
   cancelRequest: (requestId: string) => void;
   cancelAllRequest: () => void;
+  /** you can set custom state in the request instance */
+  state: T;
+}
+
+/** The request instance */
+export interface RequestInstance<S = Record<string, unknown>> extends RequestInstanceCommon<S> {
+  <T = any, R extends ResponseType = 'json'>(config: CustomAxiosRequestConfig<R>): Promise<MappedType<R, T>>;
+}
+
+export type FlatResponseSuccessData<T = any> = {
+  data: T;
+  error: null;
 };
+
+export type FlatResponseFailData<ResponseData = any> = {
+  data: null;
+  error: AxiosError<ResponseData>;
+};
+
+export type FlatResponseData<T = any, ResponseData = any> =
+  | FlatResponseSuccessData<T>
+  | FlatResponseFailData<ResponseData>;
+
+export interface FlatRequestInstance<S = Record<string, unknown>, ResponseData = any> extends RequestInstanceCommon<S> {
+  <T = any, R extends ResponseType = 'json'>(
+    config: CustomAxiosRequestConfig<R>
+  ): Promise<FlatResponseData<MappedType<R, T>, ResponseData>>;
+}

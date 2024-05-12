@@ -10,7 +10,7 @@ defineOptions({
 
 const authStore = useAuthStore();
 const { formRef, validate } = useAntdForm();
-const { constantRules } = useFormRules();
+const { patternRules } = useFormRules();
 const codeImg = ref('');
 
 getCheckCode();
@@ -23,19 +23,26 @@ const model = reactive({
 });
 
 const rules = {
-  username: constantRules.username,
-  password: constantRules.pwd
+  username: patternRules.username,
+  password: patternRules.pwd
 };
 
 async function handleSubmit() {
   await validate();
-  await authStore.login(model);
+  await authStore.login({
+    loginForm: model,
+    onError() {
+      getCheckCode();
+    }
+  });
 }
 
 async function getCheckCode() {
-  const { data } = await doGetCheckCode();
-  codeImg.value = `data:image/png;base64,${data.img}`;
-  model.uuid = data.uuid;
+  const { data, error } = await doGetCheckCode();
+  if (!error) {
+    codeImg.value = `data:image/png;base64,${data.img}`;
+    model.uuid = data.uuid;
+  }
 }
 </script>
 

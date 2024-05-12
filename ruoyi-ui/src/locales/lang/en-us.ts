@@ -136,7 +136,7 @@ const local: App.I18n.Schema = {
         back: 'Back',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
-        welcomeBack: 'Welcome back, {userName} !',
+        welcomeBack: 'Welcome back, {username} !',
         checkCode: 'Please check the verification code'
       },
       pwdLogin: {
@@ -170,7 +170,7 @@ const local: App.I18n.Schema = {
     }
   },
   form: {
-    userName: {
+    username: {
       required: 'Please enter user name',
       invalid: 'User name format is incorrect'
     },

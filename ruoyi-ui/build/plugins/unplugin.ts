@@ -56,7 +56,7 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
           'ant-design-vue': [
             ['message', '$message'],
             ['notification', '$notification'],
-            ['modal', '$modal']
+            ['Modal', '$modal']
           ]
         }
       ],

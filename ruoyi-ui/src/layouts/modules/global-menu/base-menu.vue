@@ -14,15 +14,15 @@ defineOptions({
   name: 'BaseMenu'
 });
 
-const props = withDefaults(defineProps<Props>(), {
-  mode: 'inline'
-});
-
 interface Props {
   darkTheme?: boolean;
   mode?: MenuMode;
   menus: App.Global.Menu[];
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  mode: 'inline'
+});
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -69,9 +69,11 @@ const selectedBgColor = computed(() => {
 });
 
 function handleClickMenu(menuInfo: MenuInfo) {
-  const routeKey = menuInfo.key as RouteKey;
+  const key = menuInfo.key as RouteKey;
 
-  routerPushByKey(routeKey);
+  const { query } = routeStore.getSelectedMenuMetaByKey(key) || {};
+
+  routerPushByKey(key, { query });
 }
 </script>
 
@@ -85,7 +87,7 @@ function handleClickMenu(menuInfo: MenuInfo) {
       :open-keys="openKeys"
       :inline-collapsed="inlineCollapsed"
       :inline-indent="18"
-      class="wh-full border-0! transition-300"
+      class="size-full transition-300 border-0!"
       :class="{ 'bg-container!': !darkTheme, 'horizontal-menu': isHorizontal }"
       @click="handleClickMenu"
     />
@@ -99,6 +101,11 @@ function handleClickMenu(menuInfo: MenuInfo) {
       width: calc(100% - 16px);
       margin-inline: 8px;
     }
+  }
+
+  :deep(.ant-menu-submenu-title) {
+    width: calc(100% - 16px);
+    margin-inline: 8px;
   }
 
   :deep(.ant-menu-inline-collapsed) {

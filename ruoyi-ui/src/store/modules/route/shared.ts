@@ -1,8 +1,7 @@
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw, _RouteRecordBase } from 'vue-router';
 import type { ElegantConstRoute, LastLevelRouteKey, RouteKey, RouteMap } from '@elegant-router/types';
-import { useSvgIconRender } from '@sa/hooks';
 import { $t } from '@/locales';
-import SvgIcon from '@/components/custom/svg-icon.vue';
+import { useSvgIcon } from '@/hooks/common/icon';
 
 /**
  * Filter auth routes by roles
@@ -11,12 +10,6 @@ import SvgIcon from '@/components/custom/svg-icon.vue';
  * @param roles Roles
  */
 export function filterAuthRoutesByRoles(routes: ElegantConstRoute[], roles: string[]) {
-  const SUPER_ROLE = 'R_SUPER';
-
-  if (roles.includes(SUPER_ROLE)) {
-    return routes;
-  }
-
   return routes.flatMap(route => filterAuthRouteByRoles(route, roles));
 }
 
@@ -29,10 +22,10 @@ export function filterAuthRoutesByRoles(routes: ElegantConstRoute[], roles: stri
 function filterAuthRouteByRoles(route: ElegantConstRoute, roles: string[]) {
   const routeRoles = (route.meta && route.meta.roles) || [];
 
-  if (!routeRoles.length) {
-    return [route];
-  }
+  // if the route's "roles" is empty, then it is allowed to access
+  const isEmptyRoles = !routeRoles.length;
 
+  // if the user's role is included in the route's "roles", then it is allowed to access
   const hasPermission = routeRoles.some(role => roles.includes(role));
 
   const filterRoute = { ...route };
@@ -41,7 +34,33 @@ function filterAuthRouteByRoles(route: ElegantConstRoute, roles: string[]) {
     filterRoute.children = filterRoute.children.flatMap(item => filterAuthRouteByRoles(item, roles));
   }
 
-  return hasPermission ? [filterRoute] : [];
+  return hasPermission || isEmptyRoles ? [filterRoute] : [];
+}
+
+/**
+ * sort route by order
+ *
+ * @param route route
+ */
+function sortRouteByOrder(route: ElegantConstRoute) {
+  if (route.children?.length) {
+    route.children.sort((next, prev) => (Number(next.meta?.order) || 0) - (Number(prev.meta?.order) || 0));
+    route.children.forEach(sortRouteByOrder);
+  }
+
+  return route;
+}
+
+/**
+ * sort routes by order
+ *
+ * @param routes routes
+ */
+export function sortRoutesByOrder(routes: ElegantConstRoute[]) {
+  routes.sort((next, prev) => (Number(next.meta?.order) || 0) - (Number(prev.meta?.order) || 0));
+  routes.forEach(sortRouteByOrder);
+
+  return routes;
 }
 
 /**
@@ -56,7 +75,7 @@ export function getGlobalMenusByAuthRoutes(routes: ElegantConstRoute[]) {
     if (!route.meta?.hideInMenu) {
       const menu = getGlobalMenuByBaseRoute(route);
 
-      if (route.children?.length) {
+      if (route.children?.some(child => !child.meta?.hideInMenu)) {
         menu.children = getGlobalMenusByAuthRoutes(route.children);
       }
 
@@ -102,7 +121,7 @@ export function updateLocaleOfGlobalMenus(menus: App.Global.Menu[]) {
  * @param route
  */
 function getGlobalMenuByBaseRoute(route: RouteLocationNormalizedLoaded | ElegantConstRoute) {
-  const { SvgIconVNode } = useSvgIconRender(SvgIcon);
+  const { SvgIconVNode } = useSvgIcon();
 
   const { name, path } = route;
   const { title, i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon } = route.meta ?? {};
@@ -263,4 +282,23 @@ export function getBreadcrumbsByRoute(
   }
 
   return [];
+}
+
+/**
+ * Transform menu to searchMenus
+ *
+ * @param menus - menus
+ * @param treeMap
+ */
+export function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Global.Menu[] = []) {
+  if (menus && menus.length === 0) return [];
+  return menus.reduce((acc, cur) => {
+    if (!cur.children) {
+      acc.push(cur);
+    }
+    if (cur.children && cur.children.length > 0) {
+      transformMenuToSearchMenus(cur.children, treeMap);
+    }
+    return acc;
+  }, treeMap);
 }
