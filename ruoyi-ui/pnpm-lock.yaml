@@ -12,8 +12,8 @@ importers:
         specifier: 2.5.1
         version: 2.5.1
       '@iconify/vue':
-        specifier: 4.1.1
-        version: 4.1.1(vue@3.4.5(typescript@5.3.3))
+        specifier: 4.1.2
+        version: 4.1.2(vue@3.4.5(typescript@5.3.3))
       '@sa/axios':
         specifier: workspace:^
         version: link:packages/axios
@@ -796,8 +796,8 @@ packages:
   '@iconify/utils@2.1.14':
     resolution: {integrity: sha512-9pKIntkbLbjVVFxH32td21Am3AGGJfyI2KY2d8yDQxkZe4BBZtufJI8NgcamFn8B5QKLU9ai2VMo8OEov8jAtw==}
 
-  '@iconify/vue@4.1.1':
-    resolution: {integrity: sha512-RL85Bm/DAe8y6rT6pux7D2FJSiUEM/TPfyK7GrbAOfTSwrhvwJW+S5yijdGcmtXouA8MtuH9C7l4hiSE4mLMjg==}
+  '@iconify/vue@4.1.2':
+    resolution: {integrity: sha512-CQnYqLiQD5LOAaXhBrmj1mdL2/NCJvwcC4jtW2Z8ukhThiFkLDkutarTOV2trfc9EXqUqRs0KqXOL9pZ/IyysA==}
     peerDependencies:
       vue: '>=3'
 
@@ -5548,7 +5548,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@iconify/vue@4.1.1(vue@3.4.5(typescript@5.3.3))':
+  '@iconify/vue@4.1.2(vue@3.4.5(typescript@5.3.3))':
     dependencies:
       '@iconify/types': 2.0.0
       vue: 3.4.5(typescript@5.3.3)
