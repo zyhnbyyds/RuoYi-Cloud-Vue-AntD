@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import AutoImport from 'unplugin-auto-import/vite';
 
 export function setupUnplugin(viteEnv: Env.ImportMeta) {
   const { VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX } = viteEnv;
@@ -42,6 +43,17 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
       symbolId: `${VITE_ICON_LOCAL_PREFIX}-[dir]-[name]`,
       inject: 'body-last',
       customDomId: '__SVG_ICON_LOCAL__'
+    }),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        'vitest',
+        '@vueuse/core',
+        'pinia',
+        { 'lodash-es': ['cloneDeep', 'assign', 'omit', 'pick'] }
+      ],
+      dts: 'src/typings/auto-imports.d.ts'
     })
   ];
 

@@ -82,3 +82,6 @@ yarn.lock
 .VSCodeCounter
 
 ruoyi-ui-old
+
+ruoyi-ui/src/typings/auto-imports.d.ts
+ruoyi-ui/src/typings/components.d.ts
