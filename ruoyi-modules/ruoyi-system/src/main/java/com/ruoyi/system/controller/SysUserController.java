@@ -1,7 +1,9 @@
 package com.ruoyi.system.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
@@ -162,11 +164,14 @@ public class SysUserController extends BaseController
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(user);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        ajax.put("roles", roles);
-        ajax.put("permissions", permissions);
-        return ajax;
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("user", user);
+        data.put("roles", roles);
+        data.put("permissions", permissions);
+
+        return AjaxResult.success(data);
     }
 
     /**

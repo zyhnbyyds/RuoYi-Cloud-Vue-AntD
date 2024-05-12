@@ -2,6 +2,8 @@ package com.ruoyi.gateway.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -88,9 +90,11 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
             return AjaxResult.error(e.getMessage());
         }
 
-        ajax.put("uuid", uuid);
-        ajax.put("img", Base64.encode(os.toByteArray()));
-        return ajax;
+        Map<String, Object> data = new HashMap<>();
+        data.put("uuid", uuid);
+        data.put("img", Base64.encode(os.toByteArray()));
+
+        return AjaxResult.success(data);
     }
 
     /**
