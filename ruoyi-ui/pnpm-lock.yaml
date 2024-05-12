@@ -64,8 +64,8 @@ importers:
         version: 4.2.5(vue@3.4.5(typescript@5.3.3))
     devDependencies:
       '@elegant-router/vue':
-        specifier: 0.3.1
-        version: 0.3.1
+        specifier: 0.3.6
+        version: 0.3.6
       '@iconify/json':
         specifier: 2.2.166
         version: 2.2.166
@@ -601,11 +601,11 @@ packages:
       search-insights:
         optional: true
 
-  '@elegant-router/core@0.3.1':
-    resolution: {integrity: sha512-uaOv8vwR/y161NOGgn7hiGZO5+XjRP8lcawY9qdYfHO2ayvRJLIvXTvpKqoXLa7RIFXI0genIT6C0p0h7mWpnA==}
+  '@elegant-router/core@0.3.6':
+    resolution: {integrity: sha512-cIsAqqfI7MGjcMBEAilVDTaJJeEzUchQ8bjIe+9r61btg55rc7h0wOl3Xt8BragHJ0CnTWL7R7pyXgz4Cu+9YQ==}
 
-  '@elegant-router/vue@0.3.1':
-    resolution: {integrity: sha512-hlOoJu35HpODlwk/W+J1JXrsenQKLU/cMon57MrnKqisHWYMI8DKHekGP381p4uzJOUSNw6LH44Gr85wFYv28Q==}
+  '@elegant-router/vue@0.3.6':
+    resolution: {integrity: sha512-++FxR2AmPymmXqnZYh5RZkzWgNqL75pigvoQP8FXlYs3XnpYwVK4nnjoKscqlaK0TIUQ3w7v38IPsgyGyulIFw==}
 
   '@emotion/hash@0.9.1':
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}
@@ -3268,8 +3268,12 @@ packages:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
     engines: {node: '>=12'}
 
-  magicast@0.3.2:
-    resolution: {integrity: sha512-Fjwkl6a0syt9TFN0JSYpOybxiMCkYNEeOTnOTNRbjphirLakznZXAqrXgj/7GG3D1dvETONNwrBfinvAbpunDg==}
+  magic-string@0.30.6:
+    resolution: {integrity: sha512-n62qCLbPjNjyo+owKtveQxZFZTBm+Ms6YoGD23Wew6Vw337PElFNifQpknPruVRQV57kVShPnLGo9vWxVhpPvA==}
+    engines: {node: '>=12'}
+
+  magicast@0.3.3:
+    resolution: {integrity: sha512-ZbrP1Qxnpoes8sz47AM0z08U+jW6TyRgZzcWy3Ma3vDhJttwMwAFDMMQFobwdBxByBD46JYmxRzeF7w2+wJEuw==}
 
   make-fetch-happen@10.2.1:
     resolution: {integrity: sha512-NgOPbRiaQM10DYXvN3/hhGVI2M5MtITFryzBGxHM5p4wnFxsVCbxkrBrDsk+EZ5OB4jEOT7AjDxtdF+KVEFT7w==}
@@ -3934,13 +3938,13 @@ packages:
     peerDependencies:
       prettier: '>=2.0.0'
 
-  prettier@3.1.0:
-    resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
+  prettier@3.1.1:
+    resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.1.1:
-    resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
+  prettier@3.2.4:
+    resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4733,9 +4737,6 @@ packages:
     resolution: {integrity: sha512-d6Mhq8RJeGA8UfKCu54Um4lFA0eSaRa3XxdAJg8tIdxbu1ubW0hBCZUL7yI2uGyYCRndvbK8FLHzqy2XKfeMsg==}
     engines: {node: '>=14.0.0'}
 
-  unplugin@1.5.1:
-    resolution: {integrity: sha512-0QkvG13z6RD+1L1FoibQqnvTwVBXvS4XSPwAyinVgoOCl2jAgwzdUKmEj05o4Lt8xwQI85Hb6mSyYkcAGwZPew==}
-
   unplugin@1.6.0:
     resolution: {integrity: sha512-BfJEpWBu3aE/AyHx8VaNE/WgouoQxgH9baAiH82JjX8cqVyi3uJQstqwD5J+SZxIK326SZIhsSZlALXVBCknTQ==}
 
@@ -5387,7 +5388,7 @@ snapshots:
     transitivePeerDependencies:
       - '@algolia/client-search'
 
-  '@elegant-router/core@0.3.1':
+  '@elegant-router/core@0.3.6':
     dependencies:
       chokidar: 3.5.3
       consola: 3.2.3
@@ -5395,16 +5396,16 @@ snapshots:
       kolorist: 1.8.0
       micromatch: 4.0.5
 
-  '@elegant-router/vue@0.3.1':
+  '@elegant-router/vue@0.3.6':
     dependencies:
-      '@elegant-router/core': 0.3.1
+      '@elegant-router/core': 0.3.6
       consola: 3.2.3
       kolorist: 1.8.0
-      magic-string: 0.30.5
-      magicast: 0.3.2
-      prettier: 3.1.0
+      magic-string: 0.30.6
+      magicast: 0.3.3
+      prettier: 3.2.4
       recast: 0.23.4
-      unplugin: 1.5.1
+      unplugin: 1.6.0
 
   '@emotion/hash@0.9.1': {}
 
@@ -6086,7 +6087,7 @@ snapshots:
   '@unocss/rule-utils@0.58.3':
     dependencies:
       '@unocss/core': 0.58.3
-      magic-string: 0.30.5
+      magic-string: 0.30.10
 
   '@unocss/scope@0.58.3': {}
 
@@ -6182,7 +6183,7 @@ snapshots:
       '@vue/compiler-ssr': 3.4.5
       '@vue/shared': 3.4.5
       estree-walker: 2.0.2
-      magic-string: 0.30.5
+      magic-string: 0.30.10
       postcss: 8.4.33
       source-map-js: 1.0.2
 
@@ -8369,7 +8370,11 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  magicast@0.3.2:
+  magic-string@0.30.6:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+
+  magicast@0.3.3:
     dependencies:
       '@babel/parser': 7.23.6
       '@babel/types': 7.23.6
@@ -9229,9 +9234,9 @@ snapshots:
     dependencies:
       prettier: 3.1.1
 
-  prettier@3.1.0: {}
-
   prettier@3.1.1: {}
+
+  prettier@3.2.4: {}
 
   proc-log@3.0.0: {}
 
@@ -10110,17 +10115,10 @@ snapshots:
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.6.1
 
-  unplugin@1.5.1:
-    dependencies:
-      acorn: 8.11.3
-      chokidar: 3.5.3
-      webpack-sources: 3.2.3
-      webpack-virtual-modules: 0.6.1
-
   unplugin@1.6.0:
     dependencies:
       acorn: 8.11.3
-      chokidar: 3.5.3
+      chokidar: 3.6.0
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.6.1
 
@@ -10255,7 +10253,7 @@ snapshots:
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.23.7)
       '@vue/compiler-dom': 3.4.5
       kolorist: 1.8.0
-      magic-string: 0.30.5
+      magic-string: 0.30.10
       vite: 5.0.11(@types/node@20.10.7)(sass@1.69.7)
     transitivePeerDependencies:
       - supports-color
