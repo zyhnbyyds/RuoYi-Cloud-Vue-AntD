@@ -2,6 +2,7 @@ package com.ruoyi.common.core.web.page;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 表格分页数据对象
@@ -12,11 +13,8 @@ public class TableDataInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    /** 总记录数 */
-    private long total;
-
-    /** 列表数据 */
-    private List<?> rows;
+    /** 列表数据 + 总记录数 */
+    private PageDataVo data;
 
     /** 消息状态码 */
     private int code;
@@ -37,30 +35,19 @@ public class TableDataInfo implements Serializable
      * @param list 列表数据
      * @param total 总记录数
      */
-    public TableDataInfo(List<?> list, int total)
+    public TableDataInfo(List<?> list, Long total)
     {
-        this.rows = list;
-        this.total = total;
-    }
-
-    public long getTotal()
-    {
-        return total;
+        data = new PageDataVo(list, total);
     }
 
     public void setTotal(long total)
     {
-        this.total = total;
-    }
-
-    public List<?> getRows()
-    {
-        return rows;
+        data.setTotal(total);
     }
 
     public void setRows(List<?> rows)
     {
-        this.rows = rows;
+        data.setRows(rows);
     }
 
     public int getCode()
@@ -81,5 +68,9 @@ public class TableDataInfo implements Serializable
     public void setMsg(String msg)
     {
         this.msg = msg;
+    }
+
+    public PageDataVo getData() {
+        return data;
     }
 }
