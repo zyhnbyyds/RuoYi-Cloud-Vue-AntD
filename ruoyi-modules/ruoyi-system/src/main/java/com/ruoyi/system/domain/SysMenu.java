@@ -63,6 +63,17 @@ public class SysMenu extends BaseEntity
     /** 菜单图标 */
     private String icon;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /** 菜单key */
+    private String name;
+
     /** 子菜单 */
     private List<SysMenu> children = new ArrayList<SysMenu>();
 
@@ -232,7 +243,7 @@ public class SysMenu extends BaseEntity
     {
         this.children = children;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -254,6 +265,7 @@ public class SysMenu extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
+            .append("name", getName())
             .toString();
     }
 }

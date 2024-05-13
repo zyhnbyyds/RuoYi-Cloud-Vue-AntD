@@ -168,8 +168,8 @@ public class SysMenuServiceImpl implements ISysMenuService
         for (SysMenu menu : menus)
         {
             RouterVo router = new RouterVo();
-            router.setHidden("1".equals(menu.getVisible()));
-            router.setName(getRouteName(menu));
+            router.setHideInMenu("1".equals(menu.getVisible()));
+            router.setName(menu.getName());
             router.setPath(getRouterPath(menu));
             router.setComponent(getComponent(menu));
             router.setQuery(menu.getQuery());
@@ -188,7 +188,7 @@ public class SysMenuServiceImpl implements ISysMenuService
                 RouterVo children = new RouterVo();
                 children.setPath(menu.getPath());
                 children.setComponent(menu.getComponent());
-                children.setName(StringUtils.capitalize(menu.getPath()));
+                children.setName(menu.getName());
                 children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
                 children.setQuery(menu.getQuery());
                 childrenList.add(children);
@@ -203,7 +203,7 @@ public class SysMenuServiceImpl implements ISysMenuService
                 String routerPath = innerLinkReplaceEach(menu.getPath());
                 children.setPath(routerPath);
                 children.setComponent(UserConstants.INNER_LINK);
-                children.setName(StringUtils.capitalize(routerPath));
+                children.setName(menu.getName());
                 children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getPath()));
                 childrenList.add(children);
                 router.setChildren(childrenList);
@@ -354,7 +354,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      */
     public String getRouteName(SysMenu menu)
     {
-        String routerName = StringUtils.capitalize(menu.getPath());
+        String routerName = StringUtils.capitalize(menu.getName());
         // 非外链并且是一级目录（类型为目录）
         if (isMenuFrame(menu))
         {
@@ -381,7 +381,7 @@ public class SysMenuServiceImpl implements ISysMenuService
         if (0 == menu.getParentId().intValue() && UserConstants.TYPE_DIR.equals(menu.getMenuType())
                 && UserConstants.NO_FRAME.equals(menu.getIsFrame()))
         {
-            routerPath = "/" + menu.getPath();
+            routerPath = menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
         else if (isMenuFrame(menu))

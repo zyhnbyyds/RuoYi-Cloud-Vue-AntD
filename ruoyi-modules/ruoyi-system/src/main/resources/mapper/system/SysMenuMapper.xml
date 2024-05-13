@@ -10,6 +10,7 @@
 		<result property="parentName"     column="parent_name"    />
 		<result property="parentId"       column="parent_id"      />
 		<result property="orderNum"       column="order_num"      />
+		<result property="name"       	  column="name"      />
 		<result property="path"           column="path"           />
 		<result property="component"      column="component"      />
 		<result property="query"          column="query"          />
@@ -74,7 +75,7 @@
 	</select>
     
     <select id="selectMenuTreeByUserId" parameterType="Long" resultMap="SysMenuResult">
-		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+		select distinct m.menu_id, m.name, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
 		from sys_menu m
 			 left join sys_role_menu rm on m.menu_id = rm.menu_id
 			 left join sys_user_role ur on rm.role_id = ur.role_id
