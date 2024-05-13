@@ -16,9 +16,7 @@ export type TableColumnCheck = {
 export type TableDataWithIndex<T> = T & { index: number };
 
 export type TransformedData<T> = {
-  data: TableDataWithIndex<T>[];
-  pageNum: number;
-  pageSize: number;
+  rows: TableDataWithIndex<T>[];
   total: number;
 };
 
@@ -97,9 +95,9 @@ export default function useHookTable<A extends ApiFn, T, C>(config: TableConfig<
 
     const transformed = transformer(response as Awaited<ReturnType<A>>);
 
-    data.value = transformed.data;
+    data.value = transformed.rows;
 
-    setEmpty(transformed.data.length === 0);
+    setEmpty(transformed.rows.length === 0);
 
     await config.onFetched?.(transformed);
 

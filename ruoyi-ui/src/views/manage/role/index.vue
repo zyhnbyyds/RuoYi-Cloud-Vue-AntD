@@ -37,7 +37,10 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       dataIndex: 'index',
       title: $t('common.index'),
       width: 64,
-      align: 'center'
+      align: 'center',
+      customRender: ({ renderIndex }) => {
+        return renderIndex + 1;
+      }
     },
     {
       key: 'roleName',
@@ -55,7 +58,7 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     },
     {
       key: 'roleDesc',
-      dataIndex: 'roleDesc',
+      dataIndex: 'remark',
       title: $t('page.manage.role.roleDesc'),
       minWidth: 120
     },
@@ -71,8 +74,8 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
         }
 
         const tagMap: Record<Api.Common.EnableStatus, string> = {
-          1: 'success',
-          2: 'warning'
+          '0': 'success',
+          '1': 'warning'
         };
 
         const label = $t(enableStatusRecord[record.status]);

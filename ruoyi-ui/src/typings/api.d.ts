@@ -7,26 +7,22 @@ declare namespace Api {
   namespace Common {
     /** common params of paginating */
     interface PaginatingCommonParams {
-      /** current page number */
-      pageNum: number;
-      /** page size */
-      pageSize: number;
       /** total count */
       total: number;
     }
 
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
-      records: T[];
+      rows: T[];
     }
 
     /**
      * enable status
      *
-     * - "1": enabled
-     * - "2": disabled
+     * - "0": enabled
+     * - "1": disabled
      */
-    type EnableStatus = '1' | '2';
+    type EnableStatus = '1' | '0';
 
     /** common record */
     type CommonRecord<T = any> = {
@@ -167,7 +163,12 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
+    type CommonSearchParams = {
+      /** page number */
+      pageNum: number;
+      /** page size */
+      pageSize: number;
+    };
 
     /** role */
     type Role = Common.CommonRecord<{

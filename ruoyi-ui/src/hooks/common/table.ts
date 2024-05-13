@@ -31,19 +31,9 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
     apiParams,
     columns: config.columns,
     transformer: res => {
-      const { records = [], pageNum = 1, pageSize = 10, total = 0 } = res.data || {};
-
-      const recordsWithIndex = records.map((item, index) => {
-        return {
-          ...item,
-          index: (pageNum - 1) * pageSize + index + 1
-        };
-      });
-
+      const { rows = [], total = 0 } = res.data || {};
       return {
-        data: recordsWithIndex,
-        pageNum,
-        pageSize,
+        rows,
         total
       };
     },
@@ -78,11 +68,9 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
       return filteredColumns;
     },
     onFetched: async transformed => {
-      const { pageNum, pageSize, total } = transformed;
+      const { total } = transformed;
 
       updatePagination({
-        current: pageNum,
-        pageSize,
         total
       });
     },
