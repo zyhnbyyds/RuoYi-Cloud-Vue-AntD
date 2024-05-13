@@ -8,7 +8,7 @@ import { router } from '@/router';
 import { createStaticRoutes, getAuthVueRoutes } from '@/router/routes';
 import { ROOT_ROUTE } from '@/router/routes/builtin';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
-import { doGetUserRoutes, fetchGetConstantRoutes, fetchIsRouteExist } from '@/service/api';
+import { doGetUserRoutes, fetchIsRouteExist } from '@/service/api';
 import { useAppStore } from '../app';
 import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
@@ -166,17 +166,17 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   async function initConstantRoute() {
     if (isInitConstantRoute.value) return;
 
-    if (authRouteMode.value === 'static') {
-      const { constantRoutes } = createStaticRoutes();
+    // if (authRouteMode.value === 'static') {
+    const { constantRoutes } = createStaticRoutes();
 
-      addAuthRoutes(constantRoutes);
-    } else {
-      const { data, error } = await fetchGetConstantRoutes();
+    addAuthRoutes(constantRoutes);
+    // } else {
+    //   const { data, error } = await fetchGetConstantRoutes();
 
-      if (!error) {
-        addAuthRoutes(data);
-      }
-    }
+    //   if (!error) {
+    //     addAuthRoutes(data);
+    //   }
+    // }
 
     handleAuthRoutes();
 
@@ -201,7 +201,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     if (authStore.isStaticSuper) {
       addAuthRoutes(staticAuthRoutes);
     } else {
-      const filteredAuthRoutes = filterAuthRoutesByRoles(staticAuthRoutes, authStore.userInfo.roles);
+      const filteredAuthRoutes = filterAuthRoutesByRoles(staticAuthRoutes, authStore.userInfo.roles ?? []);
 
       addAuthRoutes(filteredAuthRoutes);
     }
@@ -213,18 +213,16 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** Init dynamic auth route */
   async function initDynamicAuthRoute() {
-    const { data, error } = await doGetUserRoutes();
+    const { data: routes, error } = await doGetUserRoutes();
 
     if (!error) {
-      const { routes, home } = data;
-
       addAuthRoutes(routes);
 
       handleAuthRoutes();
 
-      setRouteHome(home);
+      setRouteHome('manage_user');
 
-      handleUpdateRootRouteRedirect(home);
+      handleUpdateRootRouteRedirect('manage_user');
 
       setIsInitAuthRoute(true);
     }

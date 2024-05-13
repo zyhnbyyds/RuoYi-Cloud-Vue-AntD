@@ -6,7 +6,7 @@
 export function createServiceConfig(env: Env.ImportMeta) {
   const mockURL = 'https://mock.apifox.com/m1/3109515-0-default';
 
-  const serviceConfigMap: App.Service.ServiceConfigMap = {
+  const serviceConfigMap = {
     dev: {
       baseURL: 'http://localhost:8080',
       otherBaseURL: {
@@ -29,7 +29,7 @@ export function createServiceConfig(env: Env.ImportMeta) {
 
   const { VITE_SERVICE_ENV = 'dev' } = env;
 
-  return serviceConfigMap[VITE_SERVICE_ENV];
+  return serviceConfigMap[VITE_SERVICE_ENV as keyof typeof serviceConfigMap];
 }
 
 /**

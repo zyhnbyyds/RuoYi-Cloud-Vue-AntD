@@ -25,8 +25,8 @@ const scrollConfig = computed(() => {
 const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchGetRoleList,
   apiParams: {
-    current: 1,
-    size: 10,
+    pageNum: 1,
+    pageSize: 10,
     status: undefined,
     roleName: undefined,
     roleCode: undefined

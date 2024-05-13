@@ -6,7 +6,12 @@ export function getToken() {
 }
 
 /** Get user info */
-const emptyInfo: Partial<Api.Auth.UserInfo> = {};
+const emptyInfo: Api.Auth.UserInfo = {
+  roles: [],
+  buttons: [],
+  permissions: [],
+  user: null
+};
 export function getUserInfo() {
   const userInfo = localStg.get('userInfo') || emptyInfo;
 

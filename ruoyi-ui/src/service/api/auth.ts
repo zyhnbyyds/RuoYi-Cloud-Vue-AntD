@@ -15,7 +15,7 @@ export function fetchLogin(body: Api.Auth.LoginBody) {
 }
 
 /** logout */
-export function fetchLogout() {
+export function doDeleteLogout() {
   return request<App.Service.Response<null>>({
     url: '/auth/logout',
     method: 'delete'

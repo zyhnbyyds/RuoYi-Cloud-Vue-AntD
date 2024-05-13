@@ -16,7 +16,7 @@ const codeImg = ref('');
 getCheckCode();
 
 const model = reactive({
-  username: 'admin',
+  username: 'ryadmin',
   password: 'admin123',
   code: '',
   uuid: ''

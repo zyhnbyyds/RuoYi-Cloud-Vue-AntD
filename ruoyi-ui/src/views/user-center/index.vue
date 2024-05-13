@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from '@/store/modules/auth';
+
+const authStore = useAuthStore();
+</script>
 
 <template>
-  <LookForward />
+  <div>{{ authStore.userInfo.user }}</div>
 </template>
 
 <style scoped></style>

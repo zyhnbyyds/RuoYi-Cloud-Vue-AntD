@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
 import { SetupStoreId } from '@/enum';
 import { useRouterPush } from '@/hooks/common/router';
-import { doGetUserInfo, fetchLogin } from '@/service/api';
+import { doDeleteLogout, doGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { useRouteStore } from '../route';
@@ -16,7 +16,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Partial<Api.Auth.UserInfo> = reactive(getUserInfo());
+  const userInfo: Api.Auth.UserInfo = reactive(getUserInfo());
 
   /** is super role in static route */
   const isStaticSuper = computed(() => {
@@ -33,6 +33,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const authStore = useAuthStore();
 
     clearAuthStorage();
+
+    doDeleteLogout();
 
     authStore.$reset();
 

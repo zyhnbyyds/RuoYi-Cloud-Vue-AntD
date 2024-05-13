@@ -7,7 +7,7 @@ export function fetchGetConstantRoutes() {
 
 /** get user routes */
 export function doGetUserRoutes() {
-  return request<Api.Route.UserRoute>({ url: '/system/menu/getRouters' });
+  return request<Api.Route.MenuRoute[]>({ url: '/system/menu/getRouters' });
 }
 
 /**

@@ -5,7 +5,7 @@ import type {
   RouteLocationRaw,
   Router
 } from 'vue-router';
-import type { RouteKey, RoutePath } from '@elegant-router/types';
+import type { RouteKey } from '@elegant-router/types';
 import { useAuthStore } from '@/store/modules/auth';
 import { useRouteStore } from '@/store/modules/route';
 import { localStg } from '@/utils/storage';
@@ -34,9 +34,8 @@ export function createRouteGuard(router: Router) {
     const needLogin = !to.meta.constant;
     const routeRoles = to.meta.roles || [];
 
-    const hasRole = authStore.userInfo.roles.some(role => routeRoles.includes(role));
-
-    const hasAuth = authStore.isStaticSuper || !routeRoles.length || hasRole;
+    // const hasRole = authStore.userInfo.roles?.some(role => routeRoles.includes(role));
+    const hasAuth = authStore.isStaticSuper || !routeRoles.length;
 
     const routeSwitches: CommonType.StrategicPattern[] = [
       // if it is login route when logged in, then switch to the root page
@@ -62,7 +61,7 @@ export function createRouteGuard(router: Router) {
       },
       // if the user is logged in and has authorization, then it is allowed to access
       {
-        condition: isLogin && needLogin && hasAuth,
+        condition: isLogin && needLogin && (hasAuth ?? false),
         callback: () => {
           handleRouteSwitch(to, from, next);
         }
@@ -129,18 +128,22 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
   }
   // it is captured by the "not-found" route, then check whether the route exists
   if (routeStore.isInitAuthRoute && isNotFoundRoute) {
-    const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
+    // const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
     const noPermissionRoute: RouteKey = '403';
 
-    if (exist) {
-      const location: RouteLocationRaw = {
-        name: noPermissionRoute
-      };
+    return {
+      name: noPermissionRoute
+    } as RouteLocationRaw;
 
-      return location;
-    }
+    // if (exist) {
+    //   const location: RouteLocationRaw = {
+    //     name: noPermissionRoute
+    //   };
 
-    return null;
+    //   return location;
+    // }
+
+    // return null;
   }
 
   // if the auth route is not initialized, then initialize the auth route

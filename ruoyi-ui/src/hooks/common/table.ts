@@ -31,19 +31,19 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
     apiParams,
     columns: config.columns,
     transformer: res => {
-      const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
+      const { records = [], pageNum = 1, pageSize = 10, total = 0 } = res.data || {};
 
       const recordsWithIndex = records.map((item, index) => {
         return {
           ...item,
-          index: (current - 1) * size + index + 1
+          index: (pageNum - 1) * pageSize + index + 1
         };
       });
 
       return {
         data: recordsWithIndex,
-        pageNum: current,
-        pageSize: size,
+        pageNum,
+        pageSize,
         total
       };
     },
@@ -90,17 +90,17 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
   });
 
   const pagination: TablePaginationConfig = reactive({
-    current: 1,
-    pageSize: 10,
     showSizeChanger: true,
     pageSizeOptions: [10, 15, 20, 25, 30],
     total: 0,
-    onChange: async (current: number, size: number) => {
+    current: 1,
+    pageSize: 10,
+    onChange: async (current: number, pageSize: number) => {
       pagination.current = current;
 
       updateSearchParams({
-        current,
-        size
+        pageNum: current,
+        pageSize
       });
 
       getData();
