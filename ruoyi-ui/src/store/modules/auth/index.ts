@@ -28,13 +28,19 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   /** Is login */
   const isLogin = computed(() => Boolean(token.value));
 
-  /** Reset auth store */
-  async function resetStore() {
+  /**
+   * Reset auth store
+   *
+   * @param isMe [isMe=false] Whether to reset the store by yourself. Default is `false`
+   */
+  async function resetStore(isMe = false) {
     const authStore = useAuthStore();
 
     clearAuthStorage();
 
-    doDeleteLogout();
+    if (isMe) {
+      doDeleteLogout();
+    }
 
     authStore.$reset();
 

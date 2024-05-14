@@ -17,7 +17,7 @@ import { localStg } from '@/utils/storage';
  */
 export function createRouteGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    const location = await initRoute(to);
+    const location = await checkRoute(to);
 
     if (location) {
       next(location);
@@ -90,7 +90,7 @@ export function createRouteGuard(router: Router) {
  *
  * @param to to route
  */
-async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw | null> {
+async function checkRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw | null> {
   const routeStore = useRouteStore();
 
   const notFoundRoute: RouteKey = 'not-found';

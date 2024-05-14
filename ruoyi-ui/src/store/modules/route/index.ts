@@ -225,6 +225,8 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
       handleUpdateRootRouteRedirect('manage_user');
 
       setIsInitAuthRoute(true);
+    } else {
+      await authStore.resetStore();
     }
   }
 
