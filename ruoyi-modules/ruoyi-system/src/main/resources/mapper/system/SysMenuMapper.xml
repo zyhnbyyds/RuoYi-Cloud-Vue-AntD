@@ -71,6 +71,12 @@
 		<if test="status != null and status != ''">
             AND m.status = #{status}
 		</if>
+		<if test="menuType != null and menuType != ''">
+			AND menu_type = #{menuType}
+		</if>
+		<if test="path != null and path != ''">
+			AND path = #{path}
+		</if>
 		order by m.parent_id, m.order_num
 	</select>
     
