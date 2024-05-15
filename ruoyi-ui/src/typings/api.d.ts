@@ -26,8 +26,6 @@ declare namespace Api {
 
     /** common record */
     type CommonRecord<T = any> = {
-      /** record id */
-      id: number;
       /** record creator */
       createBy: string;
       /** record create time */
@@ -172,24 +170,37 @@ declare namespace Api {
 
     /** role */
     type Role = Common.CommonRecord<{
-      /** role name */
+      createBy: string;
+      createTime: string;
+      updateBy: string;
+      updateTime: string;
+      remark: string;
+      roleId: number;
       roleName: string;
-      /** role code */
-      roleCode: string;
-      /** role description */
-      roleDesc: string;
+      roleKey: string;
+      roleSort: number;
+      dataScope: string;
+      menuCheckStrictly: boolean;
+      deptCheckStrictly: boolean;
+      status: string;
+      delFlag: string;
+      flag: boolean;
+      menuIds: string;
+      deptIds: string;
+      permissions: string;
+      admin: boolean;
     }>;
 
     /** role search params */
     type RoleSearchParams = Partial<
-      Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
+      Pick<Api.SystemManage.Role, 'roleName' | 'roleKey' | 'status'> & CommonSearchParams
     >;
 
     /** role list */
     type RoleList = Common.PaginatingQueryRecord<Role>;
 
     /** all role */
-    type AllRole = Pick<Role, 'id' | 'roleName' | 'roleCode'>;
+    type AllRole = Pick<Role, 'roleId' | 'roleName' | 'remark' | 'roleKey'>;
 
     /**
      * user gender
@@ -264,6 +275,8 @@ declare namespace Api {
       routePath: string;
       /** component */
       component?: string;
+      menuId: number;
+      path: string;
       /**
        * i18n key
        *

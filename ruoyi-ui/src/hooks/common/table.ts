@@ -5,7 +5,7 @@ import { useBoolean, useHookTable } from '@sa/hooks';
 import { useAppStore } from '@/store/modules/app';
 import { $t } from '@/locales';
 
-type TableData = AntDesign.TableData;
+type TableData<T = object> = AntDesign.TableData<T>;
 type GetTableData<A extends AntDesign.TableApiFn> = AntDesign.GetTableData<A>;
 type TableColumn<T> = AntDesign.TableColumn<T>;
 
@@ -139,22 +139,29 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
   };
 }
 
-export function useTableOperate<T extends TableData = TableData>(data: Ref<T[]>, getData: () => Promise<void>) {
+export function useTableOperate<T extends TableData<{ [key: string]: any }>>(
+  data: Ref<T[]>,
+  options: {
+    getData: () => Promise<void>;
+    idKey?: string;
+  }
+) {
   const { bool: drawerVisible, setTrue: openDrawer, setFalse: closeDrawer } = useBoolean();
 
   const operateType = ref<AntDesign.TableOperateType>('add');
-
-  function handleAdd() {
-    operateType.value = 'add';
-    openDrawer();
-  }
-
+  const { getData, idKey = 'id' } = options;
   /** the editing row data */
   const editingData: Ref<T | null> = ref(null);
 
-  function handleEdit(id: T['id']) {
+  function handleAdd() {
+    operateType.value = 'add';
+    editingData.value = null;
+    openDrawer();
+  }
+
+  function handleEdit(id: any) {
     operateType.value = 'edit';
-    editingData.value = data.value.find(item => item.id === id) || null;
+    editingData.value = data.value.find(item => item[idKey] === id) || null;
 
     openDrawer();
   }

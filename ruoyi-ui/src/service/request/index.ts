@@ -123,8 +123,6 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       }
 
       if (backendErrorCode === import.meta.env.VITE_SERVICE_SERVER_ERROR_CODE) {
-        console.log(1);
-
         clearAuthStorage();
         return;
       }

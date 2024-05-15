@@ -29,45 +29,26 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     pageSize: 10,
     status: undefined,
     roleName: undefined,
-    roleCode: undefined
+    roleKey: undefined
   },
   columns: () => [
     {
-      key: 'index',
-      dataIndex: 'index',
-      title: $t('common.index'),
-      width: 64,
-      align: 'center',
-      customRender: ({ renderIndex }) => {
-        return renderIndex + 1;
-      }
+      key: 'roleKey',
+      dataIndex: 'roleKey',
+      title: $t('page.manage.role.roleCode'),
+      align: 'center'
     },
     {
       key: 'roleName',
       dataIndex: 'roleName',
       title: $t('page.manage.role.roleName'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
-      key: 'roleCode',
-      dataIndex: 'roleCode',
-      title: $t('page.manage.role.roleCode'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
-      key: 'roleDesc',
-      dataIndex: 'remark',
-      title: $t('page.manage.role.roleDesc'),
-      minWidth: 120
+      align: 'center'
     },
     {
       key: 'status',
       dataIndex: 'status',
       title: $t('page.manage.role.roleStatus'),
       align: 'center',
-      width: 100,
       customRender: ({ record }) => {
         if (record.status === null) {
           return null;
@@ -84,16 +65,21 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       }
     },
     {
+      key: 'remark',
+      dataIndex: 'remark',
+      title: $t('page.manage.role.roleDesc')
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 200,
       customRender: ({ record }) => (
-        <div class="flex-center gap-8px">
-          <Button type="primary" ghost size="small" onClick={() => edit(record.id)}>
+        <div class="flex justify-around gap-8px">
+          <Button type="primary" ghost size="small" onClick={() => edit(record.roleId)}>
             {$t('common.edit')}
           </Button>
-          <Popconfirm onConfirm={() => handleDelete(record.id)} content={$t('common.confirmDelete')}>
+          <Popconfirm onConfirm={() => handleDelete(record.roleId)} content={$t('common.confirmDelete')}>
             <Button danger size="small">
               {$t('common.delete')}
             </Button>
@@ -114,7 +100,7 @@ const {
   onBatchDeleted,
   onDeleted
   // closeDrawer
-} = useTableOperate(data, getData);
+} = useTableOperate(data, { getData, idKey: 'roleId' });
 
 async function handleBatchDelete() {
   // request

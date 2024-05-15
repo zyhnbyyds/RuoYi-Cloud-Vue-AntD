@@ -35,7 +35,7 @@ function search() {
         </ACol>
         <ACol :span="24" :md="12" :lg="6">
           <AFormItem :label="$t('page.manage.role.roleCode')" name="roleCode" class="m-0">
-            <AInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+            <AInput v-model:value="model.roleKey" :placeholder="$t('page.manage.role.form.roleCode')" />
           </AFormItem>
         </ACol>
         <ACol :span="24" :md="12" :lg="6">

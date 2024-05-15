@@ -16,8 +16,11 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
  */
 export function fetchGetAllRoles() {
   return request<Api.SystemManage.AllRole[]>({
-    url: '/systemManage/getAllRoles',
-    method: 'get'
+    url: '/system/menu/list',
+    method: 'get',
+    params: {
+      menuType: 'C'
+    }
   });
 }
 
@@ -52,16 +55,29 @@ export function fetchGetMenuList() {
 
 /** get all pages */
 export function fetchGetAllPages() {
-  return request<string[]>({
-    url: '/systemManage/getAllPages',
-    method: 'get'
+  return request<Pick<Api.SystemManage.Menu, 'menuId' | 'menuName' | 'path'>[]>({
+    url: '/system/menu/list',
+    method: 'get',
+    params: {
+      menuType: 'C'
+    }
   });
 }
 
 /** get menu tree */
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
-    url: '/systemManage/getMenuTree',
+    url: '/system/menu/treeselect',
+    method: 'get'
+  });
+}
+
+/** get role menu list */
+export function doGetRoleMenuList(roleId: number) {
+  return request<{
+    checkedKeys: number[];
+  }>({
+    url: `/system/menu/roleMenuTreeselect/${roleId}`,
     method: 'get'
   });
 }

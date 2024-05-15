@@ -6,7 +6,7 @@ declare namespace AntDesign {
   type TableDataWithIndex<T> = import('@sa/hooks').TableDataWithIndex<T>;
   type FlatResponseData<T> = import('@sa/axios').FlatResponseData<T>;
 
-  type TableData = Api.Common.CommonRecord<object>;
+  type TableData<T = object> = Api.Common.CommonRecord<T>;
 
   /**
    * the custom column key

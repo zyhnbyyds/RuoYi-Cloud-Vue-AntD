@@ -14,5 +14,10 @@
   "i18n-ally.localesPaths": ["src/locales/langs"],
   "prettier.enable": false,
   "unocss.root": ["./"],
-  "cSpell.words": ["hexcode", "Localforage", "nacos"]
+  "cSpell.words": [
+    "hexcode",
+    "Localforage",
+    "nacos",
+    "treeselect"
+  ]
 }

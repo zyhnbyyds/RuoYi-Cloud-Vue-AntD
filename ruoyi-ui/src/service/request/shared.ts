@@ -14,12 +14,12 @@ export async function handleRefreshToken(axiosConfig: AxiosRequestConfig) {
   const refreshToken = localStg.get('refreshToken') || '';
   const { error, data } = await fetchRefreshToken(refreshToken);
   if (!error) {
-    localStg.set('token', data.token);
+    localStg.set('token', data.access_token);
     localStg.set('refreshToken', data.refreshToken);
 
     const config = { ...axiosConfig };
     if (config.headers) {
-      config.headers.Authorization = data.token;
+      config.headers.Authorization = data.access_token;
     }
 
     return config;

@@ -4,6 +4,7 @@ import transformerVariantGroup from '@unocss/transformer-variant-group';
 import presetUno from '@unocss/preset-uno';
 import type { Theme } from '@unocss/preset-uno';
 import { presetSoybeanAdmin } from '@sa/uno-preset';
+import presetAttributify from '@unocss/preset-attributify';
 import { themeVars } from './src/theme/vars';
 
 export default defineConfig<Theme>({
@@ -23,8 +24,10 @@ export default defineConfig<Theme>({
     }
   },
   shortcuts: {
-    'card-wrapper': 'rd-8px shadow-sm'
+    'card-wrapper': 'rd-8px shadow-sm',
+    'flex-between': 'flex justify-between'
   },
   transformers: [transformerDirectives(), transformerVariantGroup()],
-  presets: [presetUno({ dark: 'class' }), presetSoybeanAdmin()]
+  // @ts-expect-error presetUno is not compatible with the new API
+  presets: [presetUno({ dark: 'class' }), presetSoybeanAdmin(), presetAttributify()]
 });

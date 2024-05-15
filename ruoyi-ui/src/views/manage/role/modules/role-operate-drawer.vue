@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
-import { useBoolean } from '@sa/hooks';
+import { SimpleScrollbar } from '@sa/materials';
 import { useAntdForm, useFormRules } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
-import MenuAuthModal from './menu-auth-modal.vue';
-import ButtonAuthModal from './button-auth-modal.vue';
+import MenuAuth from './menu-auth.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -29,11 +27,10 @@ const emit = defineEmits<Emits>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
+const menuAuthRef = ref<InstanceType<typeof MenuAuth> | null>(null);
 
 const { formRef, validate, resetFields } = useAntdForm();
 const { defaultRequiredRule } = useFormRules();
-const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
-const { bool: buttonAuthVisible, setTrue: openButtonAuthModal } = useBoolean();
 
 const title = computed(() => {
   const titles: Record<AntDesign.TableOperateType, string> = {
@@ -43,39 +40,36 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleKey' | 'remark' | 'status'>;
 
-const model: Model = reactive(createDefaultModel());
+const model = ref<Model>(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
     roleName: '',
-    roleCode: '',
-    roleDesc: '',
-    status: '1'
+    roleKey: '',
+    remark: '',
+    status: '0'
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc'>;
+type RuleKey = Exclude<keyof Model, 'remark'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
-  roleCode: defaultRequiredRule,
+  roleKey: defaultRequiredRule,
   status: defaultRequiredRule
 };
 
-const roleId = computed(() => props.rowData?.id || -1);
-
-const isEdit = computed(() => props.operateType === 'edit');
+const roleId = computed(() => props.rowData?.roleId || -1);
 
 function handleUpdateModelWhenEdit() {
   if (props.operateType === 'add') {
-    Object.assign(model, createDefaultModel());
-    return;
+    model.value = createDefaultModel();
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    Object.assign(model, props.rowData);
+    model.value = Object.assign(model.value, props.rowData);
   }
 }
 
@@ -85,44 +79,63 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
   $message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
 }
 
-watch(visible, () => {
-  if (visible.value) {
-    handleUpdateModelWhenEdit();
-    resetFields();
+watch(
+  () => visible.value,
+  val => {
+    if (val) {
+      handleUpdateModelWhenEdit();
+      resetFields();
+    } else {
+      menuAuthRef.value?.clearChecks();
+    }
   }
-});
+);
 </script>
 
 <template>
-  <ADrawer v-model:open="visible" :title="title" :width="360">
-    <AForm ref="formRef" :model="model" :rules="rules">
-      <AFormItem :label="$t('page.manage.role.roleName')" name="roleName">
-        <AInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
-      </AFormItem>
-      <AFormItem :label="$t('page.manage.role.roleCode')" name="roleCode">
-        <AInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
-      </AFormItem>
-      <AFormItem :label="$t('page.manage.role.roleStatus')" name="status">
-        <ARadioGroup v-model:value="model.status">
-          <ARadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
-        </ARadioGroup>
-      </AFormItem>
-      <AFormItem :label="$t('page.manage.role.roleDesc')" name="roleDesc">
-        <AInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />
-      </AFormItem>
-    </AForm>
-    <ASpace v-if="isEdit">
-      <AButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</AButton>
-      <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
-      <AButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</AButton>
-      <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
-    </ASpace>
+  <ADrawer
+    v-model:open="visible"
+    :body-style="{ paddingRight: '0px', paddingTop: '0', paddingBottom: '0' }"
+    :title="title"
+    :width="460"
+  >
+    <SimpleScrollbar>
+      <AForm ref="formRef" py-20px pr-20px layout="vertical" :model="model" :rules="rules">
+        <AFormItem :label="$t('page.manage.role.roleName')" name="roleName">
+          <AInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
+        </AFormItem>
+        <AFormItem :label="$t('page.manage.role.roleCode')" name="roleKey">
+          <AInput v-model:value="model.roleKey" :placeholder="$t('page.manage.role.form.roleCode')" />
+        </AFormItem>
+        <AFormItem :label="$t('page.manage.role.roleStatus')" name="status">
+          <ARadioGroup v-model:value="model.status">
+            <ARadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value">
+              {{ $t(item.label) }}
+            </ARadio>
+          </ARadioGroup>
+        </AFormItem>
+        <AFormItem :label="$t('page.manage.role.roleDesc')" name="roleDesc">
+          <AInput v-model:value="model.remark" :placeholder="$t('page.manage.role.form.roleDesc')" />
+        </AFormItem>
+
+        <AFormItem>
+          <MenuAuth ref="menuAuthRef" :drawer-visible="visible" :type="operateType" :role-id="roleId" />
+          <template #label>
+            <div class="flex-between w-full">
+              <span>{{ $t('page.manage.role.menuAuth') }}</span>
+              <!-- #TODO custom label -->
+              <div>111</div>
+            </div>
+          </template>
+        </AFormItem>
+      </AForm>
+    </SimpleScrollbar>
+
     <template #footer>
       <div class="flex-y-center justify-end gap-12px">
         <AButton @click="closeDrawer">{{ $t('common.cancel') }}</AButton>
