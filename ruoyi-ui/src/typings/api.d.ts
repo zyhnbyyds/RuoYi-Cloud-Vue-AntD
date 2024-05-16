@@ -108,10 +108,6 @@ declare namespace Api {
     }
 
     interface Role {
-      createBy: any;
-      createTime: any;
-      updateBy: any;
-      updateTime: any;
       remark: any;
       roleId: number;
       roleName: string;
@@ -121,10 +117,10 @@ declare namespace Api {
       menuCheckStrictly: boolean;
       deptCheckStrictly: boolean;
       status: string;
-      delFlag: any;
+      delFlag: '0' | '1';
       flag: boolean;
-      menuIds: any;
-      deptIds: any;
+      menuIds: number[] | null;
+      deptIds: number[] | null;
       permissions: any;
       admin: boolean;
     }
@@ -170,10 +166,6 @@ declare namespace Api {
 
     /** role */
     type Role = Common.CommonRecord<{
-      createBy: string;
-      createTime: string;
-      updateBy: string;
-      updateTime: string;
       remark: string;
       roleId: number;
       roleName: string;
@@ -183,10 +175,10 @@ declare namespace Api {
       menuCheckStrictly: boolean;
       deptCheckStrictly: boolean;
       status: string;
-      delFlag: string;
+      delFlag: '0' | '1';
       flag: boolean;
-      menuIds: string;
-      deptIds: string;
+      menuIds: number[] | null;
+      deptIds: number[] | null;
       permissions: string;
       admin: boolean;
     }>;

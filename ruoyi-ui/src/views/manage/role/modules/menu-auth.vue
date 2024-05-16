@@ -15,14 +15,21 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const menuIds = defineModel<number[]>('menuIds', { default: [] });
 
 const tree = shallowRef<DataNode[]>([]);
 
-watchEffect(() => {
-  if (props.drawerVisible && props.type === 'edit') {
-    getChecks();
+watch(
+  () => props.drawerVisible,
+  val => {
+    if (val) {
+      init();
+    }
+  },
+  {
+    immediate: true
   }
-});
+);
 
 async function getTree() {
   const { error, data } = await fetchGetMenuTree();
@@ -51,12 +58,10 @@ function recursiveTransform(data: Api.SystemManage.MenuTree[]): DataNode[] {
   });
 }
 
-const checks = shallowRef<number[]>([]);
-
 async function getChecks() {
   const { data, error } = await doGetRoleMenuList(props.roleId);
   if (!error) {
-    checks.value = data.checkedKeys;
+    menuIds.value = data.checkedKeys;
   }
 }
 
@@ -68,21 +73,19 @@ async function init() {
 }
 
 function clearChecks() {
-  checks.value = [];
+  menuIds.value = [];
 }
 
 defineExpose({
   clearChecks
 });
-
-init();
 </script>
 
 <template>
-  <div class="border-0.5 border-gray-300 rounded-md p-2 transition-all" hover="border-gray-500">
+  <div class="border-0.5 border-gray-300 rounded-md p-2 transition-all dark:border-dark-300" hover="border-gray-500">
     <SimpleScrollbar>
       <ATree
-        v-model:checked-keys="checks"
+        v-model:checked-keys="menuIds"
         :selectable="false"
         :virtual="false"
         :tree-data="tree"

@@ -3,6 +3,7 @@ import { SimpleScrollbar } from '@sa/materials';
 import { useAntdForm, useFormRules } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { doPostRole, doPutRole } from '@/service/api/role';
 import MenuAuth from './menu-auth.vue';
 
 defineOptions({
@@ -40,7 +41,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleKey' | 'remark' | 'status'>;
+type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleKey' | 'remark' | 'status'> & { menuIds: number[] };
 
 const model = ref<Model>(createDefaultModel());
 
@@ -49,11 +50,12 @@ function createDefaultModel(): Model {
     roleName: '',
     roleKey: '',
     remark: '',
-    status: '0'
+    status: '0',
+    menuIds: []
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'remark'>;
+type RuleKey = Exclude<keyof Model, 'remark' | 'menuIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
@@ -69,7 +71,7 @@ function handleUpdateModelWhenEdit() {
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    model.value = Object.assign(model.value, props.rowData);
+    model.value = Object.assign(model.value, { ...props.rowData, menuIds: [] });
   }
 }
 
@@ -79,9 +81,12 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  $message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  const { error } = await (props.operateType === 'edit' ? doPutRole : doPostRole)(model.value as Api.SystemManage.Role);
+  if (!error) {
+    $message?.success($t(props.operateType === 'add' ? 'common.addSuccess' : 'common.updateSuccess'));
+    closeDrawer();
+    emit('submitted');
+  }
 }
 
 watch(
@@ -124,12 +129,16 @@ watch(
         </AFormItem>
 
         <AFormItem>
-          <MenuAuth ref="menuAuthRef" :drawer-visible="visible" :type="operateType" :role-id="roleId" />
+          <MenuAuth
+            ref="menuAuthRef"
+            v-model:menu-ids="model.menuIds"
+            :drawer-visible="visible"
+            :type="operateType"
+            :role-id="roleId"
+          />
           <template #label>
-            <div class="flex-between w-full">
+            <div class="w-full flex-between">
               <span>{{ $t('page.manage.role.menuAuth') }}</span>
-              <!-- #TODO custom label -->
-              <div>111</div>
             </div>
           </template>
         </AFormItem>
