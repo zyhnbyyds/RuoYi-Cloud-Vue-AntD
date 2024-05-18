@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { isShowBtn } from '@/utils/permission';
+
 defineOptions({
   name: 'TableHeaderOperation'
 });
@@ -39,13 +41,18 @@ function refresh() {
   <div class="flex flex-wrap justify-end gap-x-12px gap-y-8px lt-sm:(w-200px py-12px)">
     <slot name="prefix"></slot>
     <slot name="default">
-      <AButton size="small" ghost type="primary" @click="add">
+      <AButton v-if="isShowBtn('system:role:add')" size="small" ghost type="primary" @click="add">
         <div class="flex-y-center gap-8px">
           <icon-ic-round-plus class="text-icon" />
           <span>{{ $t('common.add') }}</span>
         </div>
       </AButton>
-      <APopconfirm :description="$t('common.confirmDelete')" :disabled="disabledDelete" @confirm="batchDelete">
+      <APopconfirm
+        v-if="isShowBtn('system:role:remove')"
+        :title="$t('common.confirmDelete')"
+        :disabled="disabledDelete"
+        @confirm="batchDelete"
+      >
         <AButton size="small" danger :disabled="disabledDelete">
           <div class="flex-y-center gap-8px">
             <icon-ic-round-delete class="text-icon" />

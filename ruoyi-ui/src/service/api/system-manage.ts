@@ -76,6 +76,7 @@ export function fetchGetMenuTree() {
 export function doGetRoleMenuList(roleId: number) {
   return request<{
     checkedKeys: number[];
+    menus: Api.SystemManage.MenuTree[];
   }>({
     url: `/system/menu/roleMenuTreeselect/${roleId}`,
     method: 'get'

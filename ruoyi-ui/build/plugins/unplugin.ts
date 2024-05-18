@@ -60,7 +60,8 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
           ]
         }
       ],
-      dts: 'src/typings/auto-imports.d.ts'
+      dts: 'src/typings/auto-imports.d.ts',
+      dirs: ['src/utils', 'src/store/modules']
     })
   ];
 

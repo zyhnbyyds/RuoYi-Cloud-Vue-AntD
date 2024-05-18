@@ -2,11 +2,13 @@
 import { computed, shallowRef } from 'vue';
 import { Button, Popconfirm, Tag } from 'ant-design-vue';
 import { useElementSize } from '@vueuse/core';
+import type { Key } from 'ant-design-vue/es/_util/type';
 import { fetchGetRoleList } from '@/service/api';
 // import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
+import { doDeleteRole } from '@/service/api/role';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
 
@@ -31,6 +33,7 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     roleName: undefined,
     roleKey: undefined
   },
+  rowKey: 'roleId',
   columns: () => [
     {
       key: 'roleKey',
@@ -74,18 +77,23 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       title: $t('common.operate'),
       align: 'center',
       width: 200,
-      customRender: ({ record }) => (
-        <div class="flex justify-around gap-8px">
-          <Button type="primary" ghost size="small" onClick={() => edit(record.roleId)}>
-            {$t('common.edit')}
-          </Button>
-          <Popconfirm onConfirm={() => handleDelete(record.roleId)} content={$t('common.confirmDelete')}>
-            <Button danger size="small">
-              {$t('common.delete')}
-            </Button>
-          </Popconfirm>
-        </div>
-      )
+      customRender: ({ record }) =>
+        !record.admin && (
+          <div class="flex justify-around gap-8px">
+            {isShowBtn('system:role:edit') && (
+              <Button size="small" onClick={() => edit(record.roleId)}>
+                {$t('common.edit')}
+              </Button>
+            )}
+            {isShowBtn('system:role:remove') && (
+              <Popconfirm onConfirm={() => handleDelete(record.roleId)} title={$t('common.confirmDelete')}>
+                <Button danger size="small">
+                  {$t('common.delete')}
+                </Button>
+              </Popconfirm>
+            )}
+          </div>
+        )
     }
   ]
 });
@@ -103,21 +111,25 @@ const {
 } = useTableOperate(data, { getData, idKey: 'roleId' });
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await doDeleteRole(checkedRowKeys.value.join(','));
+  if (!error) {
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
-  // request
-  console.log(id);
-
-  onDeleted();
+async function handleDelete(id: number) {
+  const { error } = await doDeleteRole(id);
+  if (!error) {
+    onDeleted();
+  }
 }
 
 function edit(id: number) {
   handleEdit(id);
+}
+
+function handleRoleSelectChange(selectedRowKeys: Key[]) {
+  checkedRowKeys.value = selectedRowKeys as number[];
 }
 </script>
 
@@ -145,6 +157,7 @@ function edit(id: number) {
         :columns="columns"
         :data-source="data"
         :loading="loading"
+        :row-selection="{ selectedRowKeys: checkedRowKeys, onChange: handleRoleSelectChange }"
         row-key="id"
         size="small"
         :pagination="mobilePagination"

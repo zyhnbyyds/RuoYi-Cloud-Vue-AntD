@@ -61,14 +61,20 @@ function recursiveTransform(data: Api.SystemManage.MenuTree[]): DataNode[] {
 async function getChecks() {
   const { data, error } = await doGetRoleMenuList(props.roleId);
   if (!error) {
-    menuIds.value = data.checkedKeys;
+    if (props.type === 'edit') {
+      tree.value = recursiveTransform(data.menus);
+      nextTick(() => {
+        menuIds.value = data.checkedKeys;
+      });
+    }
   }
 }
 
 async function init() {
-  await getTree();
   if (props.type === 'edit') {
     await getChecks();
+  } else {
+    await getTree();
   }
 }
 
@@ -77,7 +83,9 @@ function clearChecks() {
 }
 
 defineExpose({
-  clearChecks
+  clearChecks,
+  checkedKeys: menuIds,
+  tree
 });
 </script>
 

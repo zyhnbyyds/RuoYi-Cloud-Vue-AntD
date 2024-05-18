@@ -19,3 +19,13 @@ export function doPutRole(role: Api.SystemManage.Role) {
 export function doPostRole(role: Api.SystemManage.Role) {
   return request({ url: '/system/role', method: 'post', data: role });
 }
+
+/**
+ * delete role
+ *
+ * @param roleId role id
+ * @returns
+ */
+export function doDeleteRole(roleId: number | string) {
+  return request({ url: `/system/role/${roleId}`, method: 'delete' });
+}

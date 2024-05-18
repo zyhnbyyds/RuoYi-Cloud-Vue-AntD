@@ -220,9 +220,9 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
       handleAuthRoutes();
 
-      setRouteHome('manage_user');
+      setRouteHome('manage_role');
 
-      handleUpdateRootRouteRedirect('manage_user');
+      handleUpdateRootRouteRedirect('manage_role');
 
       setIsInitAuthRoute(true);
     } else {

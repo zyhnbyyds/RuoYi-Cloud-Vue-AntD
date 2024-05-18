@@ -30,6 +30,8 @@ const visible = defineModel<boolean>('visible', {
 });
 const menuAuthRef = ref<InstanceType<typeof MenuAuth> | null>(null);
 
+const authStore = useAuthStore();
+
 const { formRef, validate, resetFields } = useAntdForm();
 const { defaultRequiredRule } = useFormRules();
 
@@ -71,7 +73,7 @@ function handleUpdateModelWhenEdit() {
   }
 
   if (props.operateType === 'edit' && props.rowData) {
-    model.value = Object.assign(model.value, { ...props.rowData, menuIds: [] });
+    model.value = { ...props.rowData, menuIds: [] };
   }
 }
 
@@ -81,8 +83,16 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  const { error } = await (props.operateType === 'edit' ? doPutRole : doPostRole)(model.value as Api.SystemManage.Role);
+  const menuIds = transformMenuChildWithRootIds(menuAuthRef.value?.tree || [], model.value.menuIds);
+
+  const { error } = await (props.operateType === 'edit' ? doPutRole : doPostRole)({
+    ...model.value,
+    menuIds,
+    menuCheckStrictly: true
+  } as Api.SystemManage.Role);
+
   if (!error) {
+    authStore.refreshUserInfo();
     $message?.success($t(props.operateType === 'add' ? 'common.addSuccess' : 'common.updateSuccess'));
     closeDrawer();
     emit('submitted');

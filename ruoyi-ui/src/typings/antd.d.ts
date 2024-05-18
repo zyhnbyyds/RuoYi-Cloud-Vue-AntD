@@ -35,6 +35,6 @@ declare namespace AntDesign {
 
   type AntDesignTableConfig<A extends TableApiFn> = Pick<
     import('@sa/hooks').TableConfig<A, GetTableData<A>, TableColumn<TableDataWithIndex<GetTableData<A>>>>,
-    'apiFn' | 'apiParams' | 'columns' | 'immediate'
+    'apiFn' | 'apiParams' | 'columns' | 'immediate' | 'rowKey'
   >;
 }

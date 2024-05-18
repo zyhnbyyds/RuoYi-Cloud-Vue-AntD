@@ -7,7 +7,7 @@ import { doDeleteLogout, doGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { useRouteStore } from '../route';
-import { clearAuthStorage, getToken, getUserInfo } from './shared';
+import { clearAuthStorage, emptyInfo, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const routeStore = useRouteStore();
@@ -16,7 +16,20 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Api.Auth.UserInfo = reactive(getUserInfo());
+  const userInfo: Api.Auth.UserInfo = reactive(emptyInfo);
+  const permissions = computed(() => userInfo.permissions);
+
+  watch(
+    () => token.value,
+    async value => {
+      if (value && !userInfo.user && !route.value.path.includes('login')) {
+        refreshUserInfo();
+      }
+    },
+    {
+      immediate: true
+    }
+  );
 
   /** is super role in static route */
   const isStaticSuper = computed(() => {
@@ -34,15 +47,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    * @param isMe [isMe=false] Whether to reset the store by yourself. Default is `false`
    */
   async function resetStore(isMe = false) {
-    const authStore = useAuthStore();
-
-    clearAuthStorage();
-
     if (isMe) {
       doDeleteLogout();
     }
 
+    const authStore = useAuthStore();
     authStore.$reset();
+    clearAuthStorage();
 
     if (!route.value.meta.constant) {
       await toLogin();
@@ -96,20 +107,19 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.access_token);
     localStg.set('refreshToken', loginToken.refreshToken);
+    token.value = loginToken.access_token;
 
+    const isSuccess = await refreshUserInfo();
+
+    return isSuccess;
+  }
+
+  async function refreshUserInfo() {
     const { data: info, error } = await doGetUserInfo();
-
     if (!error) {
-      // 2. store user info
-      localStg.set('userInfo', info);
-
-      // 3. update store
-      token.value = loginToken.access_token;
       Object.assign(userInfo, info);
-
       return true;
     }
-
     return false;
   }
 
@@ -120,6 +130,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     isLogin,
     loginLoading,
     resetStore,
-    login
+    permissions,
+    login,
+    refreshUserInfo
   };
 });

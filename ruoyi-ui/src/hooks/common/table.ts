@@ -13,7 +13,7 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
   const scope = effectScope();
   const appStore = useAppStore();
 
-  const { apiFn, apiParams, immediate } = config;
+  const { apiFn, apiParams, immediate, rowKey } = config;
 
   const {
     loading,
@@ -33,7 +33,7 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
     transformer: res => {
       const { rows = [], total = 0 } = res.data || {};
       return {
-        rows,
+        rows: rows.map((row, index) => ({ ...row, id: rowKey ? row[rowKey] : index })),
         total
       };
     },
@@ -162,12 +162,11 @@ export function useTableOperate<T extends TableData<{ [key: string]: any }>>(
   function handleEdit(id: any) {
     operateType.value = 'edit';
     editingData.value = data.value.find(item => item[idKey] === id) || null;
-
     openDrawer();
   }
 
   /** the checked row keys of table */
-  const checkedRowKeys = ref<string[]>([]);
+  const checkedRowKeys = ref<number[]>([]);
 
   /** the hook after the batch delete operation is completed */
   async function onBatchDeleted() {
