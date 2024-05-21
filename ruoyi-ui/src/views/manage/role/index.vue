@@ -4,15 +4,12 @@ import { Button, Popconfirm, Tag } from 'ant-design-vue';
 import { useElementSize } from '@vueuse/core';
 import type { Key } from 'ant-design-vue/es/_util/type';
 import { fetchGetRoleList } from '@/service/api';
-// import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
 import { doDeleteRole } from '@/service/api/role';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
-
-// const appStore = useAppStore();
 
 const wrapperEl = shallowRef<HTMLElement | null>(null);
 const { height: wrapperElHeight } = useElementSize(wrapperEl);

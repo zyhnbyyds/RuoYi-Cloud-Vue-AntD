@@ -25,7 +25,7 @@ export type Transformer<T, Response> = (response: Response) => TransformedData<T
 export type TableConfig<A extends ApiFn, T, C> = {
   /** api function to get table data */
   apiFn: A;
-
+  /** row key */
   rowKey?: string;
   /** api params */
   apiParams?: Parameters<A>[0];

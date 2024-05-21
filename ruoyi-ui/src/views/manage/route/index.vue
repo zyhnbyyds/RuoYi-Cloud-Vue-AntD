@@ -1,15 +1,7 @@
-<script setup lang="ts">
-import { onActivated } from 'vue';
-
-console.log('setup');
-
-onActivated(() => {
-  console.log('onActivated');
-});
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <LookForward />
+  <div>路由</div>
 </template>
 
 <style scoped></style>
