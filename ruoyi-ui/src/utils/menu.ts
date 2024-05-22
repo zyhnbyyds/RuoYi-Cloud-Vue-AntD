@@ -24,3 +24,28 @@ export function transformMenuChildWithRootIds(menuList: DataNode[], checkedKeys:
 
   return Array.from(checkedKeysSet);
 }
+
+export function transformListToTree(list: Api.SystemManage.Menu[]) {
+  const tree = cloneDeep(list);
+  const map = new Map<number, Api.SystemManage.Menu>();
+  tree.forEach(item => {
+    map.set(item.menuId, item);
+  });
+
+  const treeData: Api.SystemManage.Menu[] = [];
+  tree.forEach(item => {
+    if (item.parentId === 0) {
+      treeData.push(item);
+    } else {
+      const parent = map.get(item.parentId);
+      if (parent) {
+        if (!parent.children) {
+          parent.children = [];
+        }
+        parent.children.push(item);
+      }
+    }
+  });
+
+  return treeData;
+}

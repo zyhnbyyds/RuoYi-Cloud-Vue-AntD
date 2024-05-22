@@ -233,7 +233,7 @@ declare namespace Api {
      * - "1": directory
      * - "2": menu
      */
-    type MenuType = '1' | '2';
+    type MenuType = 'M' | 'C' | 'F';
 
     type MenuButton = {
       /**
@@ -280,11 +280,13 @@ declare namespace Api {
       /** icon type */
       iconType: IconType;
       /** menu order */
-      order: number;
+      orderNum: number;
       /** whether to cache the route */
       keepAlive?: boolean;
       /** outer link */
       href?: string;
+      /** whether to retain the route */
+      status: '0' | '1';
       /** whether to hide the route in the menu */
       hideInMenu?: boolean;
       /**
