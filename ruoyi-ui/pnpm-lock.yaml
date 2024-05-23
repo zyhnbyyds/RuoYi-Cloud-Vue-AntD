@@ -104,7 +104,7 @@ importers:
         version: 0.59.4
       '@unocss/preset-tagify':
         specifier: ^0.60.2
-        version: 0.60.2
+        version: 0.60.3
       '@unocss/preset-uno':
         specifier: 0.59.4
         version: 0.59.4
@@ -1500,6 +1500,9 @@ packages:
   '@unocss/core@0.60.2':
     resolution: {integrity: sha512-9i+eAJAqvy9bv0vrQxUU7VtR+wO6Vfk6dqrPHKRV/vlbwRT18v/C++dQ2L6PLM1CKxgNTeld0iTlpo8J3xZlxQ==}
 
+  '@unocss/core@0.60.3':
+    resolution: {integrity: sha512-4bBX1pavDl2DSCozEII7bxYGT0IkyO7kKlUuCtooTePWyLjf2F7essdzHkJ00EpNR64kkebR9V0lqBMBo07VPw==}
+
   '@unocss/eslint-config@0.59.4':
     resolution: {integrity: sha512-a0FWOXQtdheYplZI+Oba2QMNWzCsfTUV/EuYEUDuKFARcsqpzO0PgRSH0MDHz0nROYmxeKkEKW/56dbAXmjBFQ==}
     engines: {node: '>=14'}
@@ -1523,8 +1526,8 @@ packages:
   '@unocss/preset-mini@0.59.4':
     resolution: {integrity: sha512-ZLywGrXi1OCr4My5vX2rLUb5Xgx6ufR9WTQOvpQJGBdIV/jnZn/pyE5avCs476SnOq2K172lnd8mFmTK7/zArA==}
 
-  '@unocss/preset-tagify@0.60.2':
-    resolution: {integrity: sha512-M730DpoPJ8/uG7aKme9EYrzspr0WfKp7z3CTpb2hb4YHuiCXmiTjdxo5xa9vK3ZGQTZlUkG0rz3TLw8tRKqRDg==}
+  '@unocss/preset-tagify@0.60.3':
+    resolution: {integrity: sha512-pzD6bgtGuIk7M1n/JQiR6EpwnVvafSTHoM70Jhf+T8MSuatDb+KFJCn3VELV2v38aikcUY5cTf95jqHQdzOAhQ==}
 
   '@unocss/preset-uno@0.59.4':
     resolution: {integrity: sha512-G1f8ZluplvXZ3bERj+sM/8zzY//XD++nNOlAQNKOANSVht3qEoJebrfEiMClNpA5qW5VWOZhEhPkh0M7GsXtnA==}
@@ -3918,6 +3921,7 @@ packages:
   npmlog@6.0.2:
     resolution: {integrity: sha512-/vBvz5Jfr9dT/aFWd0FIRf+T/Q2WBsLENygUaFUqstqsycmZAP/t5BvFJTK0viFmSUxiUKTUplWy5vt+rvKIxg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+    deprecated: This package is no longer supported.
 
   nprogress@0.2.0:
     resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
@@ -6538,6 +6542,8 @@ snapshots:
 
   '@unocss/core@0.60.2': {}
 
+  '@unocss/core@0.60.3': {}
+
   '@unocss/eslint-config@0.59.4(eslint@9.1.1)(typescript@5.4.5)':
     dependencies:
       '@unocss/eslint-plugin': 0.59.4(eslint@9.1.1)(typescript@5.4.5)
@@ -6587,9 +6593,9 @@ snapshots:
       '@unocss/extractor-arbitrary-variants': 0.59.4
       '@unocss/rule-utils': 0.59.4
 
-  '@unocss/preset-tagify@0.60.2':
+  '@unocss/preset-tagify@0.60.3':
     dependencies:
-      '@unocss/core': 0.60.2
+      '@unocss/core': 0.60.3
 
   '@unocss/preset-uno@0.59.4':
     dependencies:
