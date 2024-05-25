@@ -1,40 +1,21 @@
 <script lang="ts" setup>
+import type {} from 'ant-design-vue';
+import type { ModelType } from './form';
+import { formRules, menuStatusOptions, menuTypeOptions, resetAddForm } from './form';
+import IconSelect from './icon-select.vue';
+
 const props = defineProps<{
   operateType: AntDesign.TableOperateType;
   rowData?: Api.SystemManage.Role | null;
 }>();
 
-type ModelType = Pick<
-  Api.SystemManage.Menu,
-  'menuName' | 'menuType' | 'icon' | 'path' | 'component' | 'orderNum' | 'status' | 'parentId'
->;
-
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-const { defaultRequiredRule } = useFormRules();
-const { formRef, validate } = useAntdForm();
+const { formRef, validate, resetFields } = useAntdForm();
 
-const model = ref<ModelType>({
-  menuName: '',
-  menuType: 'M',
-  icon: '',
-  path: '',
-  component: '',
-  orderNum: 0,
-  status: '0',
-  parentId: 0
-});
-
-const formRules = {
-  menuName: defaultRequiredRule,
-  menuType: defaultRequiredRule,
-  icon: defaultRequiredRule,
-  path: defaultRequiredRule,
-  component: defaultRequiredRule,
-  orderNum: defaultRequiredRule,
-  status: defaultRequiredRule
-};
+const model = ref<ModelType>(resetAddForm());
+const treeData = ref<Api.SystemManage.MenuTree[]>([]);
 
 const title = computed(() => {
   const titles: Record<AntDesign.TableOperateType, string> = {
@@ -51,42 +32,70 @@ const submitForm = async () => {
 
 function closeModal() {
   visible.value = false;
+  resetFields();
+  model.value = resetAddForm();
 }
+
+async function getTreeData() {
+  const { data, error } = await fetchGetMenuTree();
+  if (!error && data) {
+    // 添加根节点
+    treeData.value = [
+      {
+        id: 0,
+        pId: -1,
+        label: '根节点',
+        children: data
+      }
+    ];
+    // 'i-carbon:ai-governance',
+  }
+}
+
+getTreeData();
 </script>
 
 <template>
-  <AModal v-model:open="visible" :title="title" width="50%">
-    <AForm ref="formRef" layout="vertical" :model="model" :rules="formRules" grid grid-cols-2 gap-7 py-4>
-      <AFormItem label="上级菜单" name="menuName">
-        <!-- TODO: 树选择框 -->
+  <AModal v-model:open="visible" :title="title" :width="700">
+    <AForm
+      ref="formRef"
+      :model="model"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 16, offset: 1 }"
+      class="grid grid-cols-2 gap-3 px-4 py-4 pt-6"
+    >
+      <AFormItem label="上级菜单" name="parentId">
+        <ATreeSelect
+          v-model:value="model.parentId"
+          show-search
+          :field-names="{ value: 'id' }"
+          allow-clear
+          :virtual="false"
+          :tree-data="treeData"
+          tree-node-filter-prop="label"
+        />
       </AFormItem>
       <AFormItem label="菜单名称" name="menuName">
-        <AInput v-model:modelValue="model.menuName" />
+        <AInput v-model:value="model.menuName" />
       </AFormItem>
       <AFormItem label="菜单类型" name="menuType">
-        <ASelect v-model:modelValue="model.menuType">
-          <ASelectOption value="0">目录</ASelectOption>
-          <ASelectOption value="1">菜单</ASelectOption>
-          <ASelectOption value="2">按钮</ASelectOption>
-        </ASelect>
+        <ASelect v-model:value="model.menuType" :options="menuTypeOptions" />
       </AFormItem>
       <AFormItem label="菜单图标" name="icon">
-        <AInput v-model:modelValue="model.icon" />
+        <IconSelect v-model:value="model.icon" />
       </AFormItem>
       <AFormItem label="菜单路径" name="path">
-        <AInput v-model:modelValue="model.path" />
+        <AInput v-model:value="model.path" />
       </AFormItem>
       <AFormItem label="组件路径" name="component">
-        <AInput v-model:modelValue="model.component" />
+        <AInput v-model:value="model.component" />
       </AFormItem>
       <AFormItem label="排序" name="orderNum">
-        <AInputNumber v-model:modelValue="model.orderNum" w-full />
+        <AInputNumber v-model:value="model.orderNum" w-full />
       </AFormItem>
       <AFormItem label="状态" name="status">
-        <ASelect v-model:modelValue="model.status">
-          <ASelectOption value="0">正常</ASelectOption>
-          <ASelectOption value="1">停用</ASelectOption>
-        </ASelect>
+        <ASelect v-model:value="model.status" :options="menuStatusOptions" />
       </AFormItem>
     </AForm>
 

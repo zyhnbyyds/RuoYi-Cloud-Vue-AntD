@@ -4,6 +4,7 @@ import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -49,11 +50,10 @@ public class SysMenuController extends BaseController {
      */
     @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
-    public AjaxResult list(SysMenu menu) {
-        logger.info("menu: {}", menu);
+    public TableDataInfo list(SysMenu menu) {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
-        return success(menus);
+        return getDataTable(menus);
     }
 
     /**

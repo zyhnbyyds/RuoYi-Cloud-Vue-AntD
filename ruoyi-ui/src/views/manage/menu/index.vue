@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { Icon } from '@iconify/vue';
 import { Button, Tag } from 'ant-design-vue';
+import { SimpleScrollbar } from '~/packages/materials/src';
 import MenuOperateModal from './modules/menu-operate-modal.vue';
 
 const { data, columns, loading, getData } = useTable({
@@ -52,7 +53,7 @@ const { data, columns, loading, getData } = useTable({
         const colorTagMap: Record<string, string> = {
           M: 'processing',
           C: 'success',
-          F: 'warning'
+          F: 'default'
         };
 
         const labelMap: Record<string, string> = {
@@ -101,11 +102,10 @@ const { data, columns, loading, getData } = useTable({
   ],
   rowKey: 'menuId'
 });
-const { handleEdit, handleAdd, checkedRowKeys, operateType, drawerVisible, onBatchDeleted, onDeleted } =
-  useTableOperate(data, {
-    getData,
-    idKey: 'menuId'
-  });
+const { handleEdit, handleAdd, checkedRowKeys, operateType, drawerVisible, onDeleted } = useTableOperate(data, {
+  getData,
+  idKey: 'menuId'
+});
 
 function edit(id: number) {
   handleEdit(id);
@@ -126,37 +126,26 @@ function handleDelete(id: number) {
 const treeData = computed(() => {
   return transformListToTree(data.value);
 });
-
-function handleBatchDelete() {
-  $modal.confirm({
-    title: '提示',
-    content: '确定删除选中的菜单吗？',
-    onOk: async () => {
-      console.log('批量删除', checkedRowKeys.value);
-      onBatchDeleted();
-    }
-  });
-}
 </script>
 
 <template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <ACard title="搜索">
-      <AButton type="primary" @click="handleAdd">新增</AButton>
-      <AButton type="default" :disabled="checkedRowKeys.length === 0" @click="handleBatchDelete">批量删除</AButton>
-    </ACard>
-    <ACard title="菜单列表">
-      <ATable
-        :checked-row-keys="checkedRowKeys"
-        :data-source="treeData"
-        row-key="menuId"
-        :columns="columns"
-        :pagination="false"
-        :loading="loading"
-      />
-      <MenuOperateModal v-model:visible="drawerVisible" :operate-type="operateType" />
-    </ACard>
-  </div>
+  <SimpleScrollbar>
+    <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+      <ACard title="菜单列表">
+        <AButton mb-4 type="primary" @click="handleAdd">新增</AButton>
+
+        <ATable
+          :checked-row-keys="checkedRowKeys"
+          :data-source="treeData"
+          row-key="menuId"
+          :columns="columns"
+          :pagination="false"
+          :loading="loading"
+        />
+        <MenuOperateModal v-model:visible="drawerVisible" :operate-type="operateType" />
+      </ACard>
+    </div>
+  </SimpleScrollbar>
 </template>
 
 <style scoped></style>

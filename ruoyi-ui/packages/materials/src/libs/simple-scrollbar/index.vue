@@ -9,7 +9,7 @@ defineOptions({
 
 <template>
   <div class="h-full flex-1-hidden">
-    <Simplebar class="h-full">
+    <Simplebar data-simplebar-auto-hide="false" class="h-full">
       <slot />
     </Simplebar>
   </div>
