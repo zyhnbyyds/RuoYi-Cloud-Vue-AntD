@@ -18,7 +18,8 @@ export default defineConfig(
           ignores: ['/^icon-/']
         }
       ],
-      'order-attributify': 'off'
+      'order-attributify': 'off',
+      'no-warning-comments': 'off'
     }
   }
 );

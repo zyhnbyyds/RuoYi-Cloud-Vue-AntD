@@ -47,5 +47,17 @@ export function transformListToTree(list: Api.SystemManage.Menu[]) {
     }
   });
 
+  // children为空数组的情况下，删除children字段
+  function removeEmptyChildren(treeDataGet: Api.SystemManage.Menu[]) {
+    treeDataGet.forEach(item => {
+      if (item.children && item.children.length) {
+        item.children = item.children.sort((a, b) => a.orderNum - b.orderNum);
+        removeEmptyChildren(item.children);
+      } else {
+        delete item.children;
+      }
+    });
+  }
+  removeEmptyChildren(treeData);
   return treeData;
 }

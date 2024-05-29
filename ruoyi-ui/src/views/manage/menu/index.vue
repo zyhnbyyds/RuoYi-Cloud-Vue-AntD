@@ -11,7 +11,7 @@ const { data, columns, loading, getData } = useTable({
       key: 'menuName',
       dataIndex: 'menuName',
       title: '菜单名称',
-      align: 'center',
+      align: 'left',
       width: 200
     },
     {
@@ -102,10 +102,13 @@ const { data, columns, loading, getData } = useTable({
   ],
   rowKey: 'menuId'
 });
-const { handleEdit, handleAdd, checkedRowKeys, operateType, drawerVisible, onDeleted } = useTableOperate(data, {
-  getData,
-  idKey: 'menuId'
-});
+const { handleEdit, handleAdd, checkedRowKeys, operateType, drawerVisible, onDeleted, editingData } = useTableOperate(
+  data,
+  {
+    getData,
+    idKey: 'menuId'
+  }
+);
 
 function edit(id: number) {
   handleEdit(id);
@@ -116,9 +119,11 @@ function handleDelete(id: number) {
     title: '提示',
     content: '确定删除该菜单吗？',
     onOk: async () => {
-      console.log('删除', id);
-      // getData();
-      onDeleted();
+      const { error } = await doDeleteMenu(id);
+      if (!error) {
+        $message.success('删除成功');
+        onDeleted();
+      }
     }
   });
 }
@@ -132,7 +137,7 @@ const treeData = computed(() => {
   <SimpleScrollbar>
     <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
       <ACard title="菜单列表">
-        <AButton mb-4 type="primary" @click="handleAdd">新增</AButton>
+        <AButton mb-4 type="primary" @click="handleAdd">新增菜单</AButton>
 
         <ATable
           :checked-row-keys="checkedRowKeys"
@@ -142,7 +147,7 @@ const treeData = computed(() => {
           :pagination="false"
           :loading="loading"
         />
-        <MenuOperateModal v-model:visible="drawerVisible" :operate-type="operateType" />
+        <MenuOperateModal v-model:visible="drawerVisible" :editing-data="editingData" :operate-type="operateType" />
       </ACard>
     </div>
   </SimpleScrollbar>

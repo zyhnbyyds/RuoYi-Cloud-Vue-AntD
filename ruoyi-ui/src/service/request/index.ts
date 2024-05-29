@@ -1,11 +1,9 @@
-import type { AxiosResponse } from 'axios';
 import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
 import { useAuthStore } from '@/store/modules/auth';
 import { localStg } from '@/utils/storage';
 import { getServiceBaseURL } from '@/utils/service';
 import { $t } from '@/locales';
 import { clearAuthStorage } from '@/store/modules/auth/shared';
-import { handleRefreshToken } from './shared';
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
@@ -38,7 +36,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
       return String(response.data.code) === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
     },
-    async onBackendFail(response, instance) {
+    async onBackendFail(response, _instance) {
       const authStore = useAuthStore();
 
       function handleLogout() {
@@ -81,18 +79,20 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
 
       // when the backend response code is in `expiredTokenCodes`, it means the token is expired, and refresh token
       // the api `refreshToken` can not return error code in `expiredTokenCodes`, otherwise it will be a dead loop, should return `logoutCodes` or `modalLogoutCodes`
-      const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
-      if (expiredTokenCodes.includes(String(response.data.code)) && !request.state.isRefreshingToken) {
-        request.state.isRefreshingToken = true;
+      // eslint-disable-next-line no-warning-comments
+      // TODO: fix when back code is 403 the page redirect to login
+      // const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
+      // if (expiredTokenCodes.includes(String(response.data.code)) && !request.state.isRefreshingToken) {
+      //   request.state.isRefreshingToken = true;
 
-        const refreshConfig = await handleRefreshToken(response.config);
+      //   const refreshConfig = await handleRefreshToken(response.config);
 
-        request.state.isRefreshingToken = false;
+      //   request.state.isRefreshingToken = false;
 
-        if (refreshConfig) {
-          return instance.request(refreshConfig) as Promise<AxiosResponse>;
-        }
-      }
+      //   if (refreshConfig) {
+      //     return instance.request(refreshConfig) as Promise<AxiosResponse>;
+      //   }
+      // }
 
       return null;
     },

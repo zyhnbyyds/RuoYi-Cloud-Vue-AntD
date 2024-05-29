@@ -7,7 +7,7 @@ defineOptions({
   name: 'IconSelect'
 });
 
-const value = defineModel<string>({ default: 'carbon:apps' });
+const value = defineModel<string>({ default: '' });
 const iconSelectRef = ref<HTMLElement | null>(null);
 const { isOutside } = useMouseInElement(iconSelectRef);
 
@@ -30,7 +30,8 @@ function selectIcon(icon: string) {
     <div flex items-center gap-2 @click="visible = true">
       <AInput v-model:value="value" @blur="blur">
         <template #suffix>
-          <Icon text-4 :icon="`${value}`" @click.prevent="() => {}"></Icon>
+          <Icon v-if="value" text-4 :icon="`${value}`" @click.prevent="() => {}"></Icon>
+          <Icon v-if="!value" text-4 icon="carbon:apps" @click.prevent="() => {}"></Icon>
         </template>
       </AInput>
     </div>

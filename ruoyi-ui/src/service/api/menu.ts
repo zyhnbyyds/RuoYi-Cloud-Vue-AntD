@@ -1,3 +1,4 @@
+import type { MenuModelType } from '@/views/manage/menu/modules/form';
 import { request } from '../request';
 
 export type MenuListQuery = Partial<
@@ -37,4 +38,24 @@ export function doGetRoleMenuList(roleId: number) {
     url: `/system/menu/roleMenuTreeselect/${roleId}`,
     method: 'get'
   });
+}
+
+/** add menu */
+export function doAddMenu(data: MenuModelType) {
+  return request({ url: '/system/menu', method: 'post', data });
+}
+
+/** delete menu */
+export function doDeleteMenu(menuId: number) {
+  return request({ url: `/system/menu/${menuId}`, method: 'delete' });
+}
+
+/** get menu detail */
+export function doGetMenuDetail(menuId: number) {
+  return request<MenuModelType>({ url: `/system/menu/${menuId}`, method: 'get' });
+}
+
+/** edit menu */
+export function doEditMenu(data: MenuModelType) {
+  return request({ url: '/system/menu', method: 'put', data });
 }

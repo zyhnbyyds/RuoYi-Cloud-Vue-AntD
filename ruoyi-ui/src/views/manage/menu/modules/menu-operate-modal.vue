@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type {} from 'ant-design-vue';
-import type { ModelType } from './form';
+import { generatedRoutes } from '@/router/elegant/routes';
+import { $t } from '@/locales';
+import type { MenuModelType } from './form';
 import { formRules, menuStatusOptions, menuTypeOptions, resetAddForm } from './form';
 import IconSelect from './icon-select.vue';
 
 const props = defineProps<{
   operateType: AntDesign.TableOperateType;
-  rowData?: Api.SystemManage.Role | null;
+  editingData?: Api.SystemManage.Menu | null;
 }>();
 
 const visible = defineModel<boolean>('visible', {
@@ -14,7 +16,7 @@ const visible = defineModel<boolean>('visible', {
 });
 const { formRef, validate, resetFields } = useAntdForm();
 
-const model = ref<ModelType>(resetAddForm());
+const model = ref<MenuModelType>(resetAddForm());
 const treeData = ref<Api.SystemManage.MenuTree[]>([]);
 
 const title = computed(() => {
@@ -25,8 +27,46 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
+// TODO: 根据菜单类型动态加载组件路径、目录类型只允许选择带有子元素的，菜单类型只允许选择没有子元素的
+const componentOptions = computed(() => {
+  const excludePaths = ['/404', '/403', '/500'];
+  function transformRoutes(routes: any[]): any[] {
+    return routes.filter(route => {
+      if (route.children) {
+        route.children = transformRoutes(route.children);
+        return true;
+      }
+      if (!route.hideInMenu && !excludePaths.includes(route.path) && !route.path.startsWith('/login')) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  return transformRoutes(generatedRoutes);
+});
+
+watch(visible, val => {
+  if (val) {
+    if (props.operateType === 'edit' && props.editingData) {
+      model.value = {
+        ...props.editingData,
+        parentId: props.editingData.parentId || 0,
+        hideInMenu: props.editingData.visible === '0' ? '1' : '0'
+      };
+    }
+  } else {
+    resetFields();
+    model.value = resetAddForm();
+  }
+});
+
 const submitForm = async () => {
   await validate();
+  const { error } = await (props.operateType === 'add' ? doAddMenu(model.value) : doEditMenu(model.value));
+  if (!error) {
+    $message?.success($t(props.operateType === 'add' ? 'common.addSuccess' : 'common.updateSuccess'));
+  }
   closeModal();
 };
 
@@ -48,8 +88,12 @@ async function getTreeData() {
         children: data
       }
     ];
-    // 'i-carbon:ai-governance',
   }
+}
+
+function handleTreeSelect(_val: string, node: any) {
+  model.value.component = node.component;
+  model.value.name = node.name;
 }
 
 getTreeData();
@@ -71,7 +115,6 @@ getTreeData();
           show-search
           :field-names="{ value: 'id' }"
           allow-clear
-          :virtual="false"
           :tree-data="treeData"
           tree-node-filter-prop="label"
         />
@@ -82,20 +125,45 @@ getTreeData();
       <AFormItem label="菜单类型" name="menuType">
         <ASelect v-model:value="model.menuType" :options="menuTypeOptions" />
       </AFormItem>
-      <AFormItem label="菜单图标" name="icon">
-        <IconSelect v-model:value="model.icon" />
+      <AFormItem v-if="model.menuType !== 'F'" label="菜单图标" name="icon">
+        <IconSelect v-model="model.icon" />
       </AFormItem>
-      <AFormItem label="菜单路径" name="path">
-        <AInput v-model:value="model.path" />
+      <AFormItem v-if="model.menuType === 'C'" label="是否外链">
+        <ARadioGroup v-model:value="model.isFrame" name="radioGroup" @change="() => (model.path = '')">
+          <ARadio value="0">是</ARadio>
+          <ARadio value="1">否</ARadio>
+        </ARadioGroup>
       </AFormItem>
-      <AFormItem label="组件路径" name="component">
-        <AInput v-model:value="model.component" />
+      <AFormItem v-if="model.menuType !== 'F'" label="菜单路径" name="path">
+        <div>
+          <!-- @vue-ignore -->
+          <ATreeSelect
+            v-if="model.isFrame === '1'"
+            v-model:value="model.path"
+            show-search
+            :field-names="{ value: 'path', label: 'path' }"
+            allow-clear
+            :tree-data="componentOptions"
+            tree-node-filter-prop="label"
+            @select="(_val, node) => handleTreeSelect"
+          />
+          <AInput v-else v-model:value="model.path" />
+        </div>
+      </AFormItem>
+      <AFormItem v-if="model.menuType === 'C'" label="隐藏菜单" name="hideInMenu">
+        <ASwitch v-model:checked="model.hideInMenu" checked-value="0" un-checked-value="1" />
       </AFormItem>
       <AFormItem label="排序" name="orderNum">
         <AInputNumber v-model:value="model.orderNum" w-full />
       </AFormItem>
-      <AFormItem label="状态" name="status">
+      <AFormItem v-if="model.menuType !== 'F'" label="状态" name="status">
         <ASelect v-model:value="model.status" :options="menuStatusOptions" />
+      </AFormItem>
+      <AFormItem v-if="model.menuType === 'C'" label="缓存" name="isCache">
+        <ASwitch v-model:checked="model.isCache" checked-value="0" un-checked-value="1" />
+      </AFormItem>
+      <AFormItem v-if="model.menuType === 'F'" label="权限标识" name="perms">
+        <AInput v-model:value="model.perms" />
       </AFormItem>
     </AForm>
 

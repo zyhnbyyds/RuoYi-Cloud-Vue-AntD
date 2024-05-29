@@ -282,13 +282,13 @@ declare namespace Api {
       /** menu order */
       orderNum: number;
       /** whether to cache the route */
-      keepAlive?: boolean;
+      keepAlive?: '0' | '1';
       /** outer link */
       href?: string;
       /** whether to retain the route */
       status: '0' | '1';
       /** whether to hide the route in the menu */
-      hideInMenu?: boolean;
+      hideInMenu?: '0' | '1';
       /**
        * The menu key will be activated when entering the route
        *
@@ -306,6 +306,14 @@ declare namespace Api {
       buttons?: MenuButton[];
       /** children menu */
       children?: Menu[];
+      /** is external link */
+      isFrame: '0' | '1';
+      /** perms to request api */
+      perms: string;
+      /** menu name(path combine) */
+      name: string;
+      isCache: '0' | '1';
+      visible: '0' | '1';
     }>;
 
     /** menu list */

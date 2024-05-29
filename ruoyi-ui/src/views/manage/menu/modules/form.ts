@@ -1,11 +1,25 @@
 const { defaultRequiredRule } = useFormRules();
 
-export type ModelType = Pick<
+export type MenuModelType = Pick<
   Api.SystemManage.Menu,
-  'menuName' | 'menuType' | 'icon' | 'path' | 'component' | 'orderNum' | 'status' | 'parentId'
+  | 'menuName'
+  | 'menuType'
+  | 'icon'
+  | 'path'
+  | 'component'
+  | 'orderNum'
+  | 'status'
+  | 'parentId'
+  | 'hideInMenu'
+  | 'fixedIndexInTab'
+  | 'iconType'
+  | 'isFrame'
+  | 'perms'
+  | 'isCache'
+  | 'name'
 >;
 
-export function resetAddForm(): ModelType {
+export function resetAddForm(): MenuModelType {
   return {
     menuName: '',
     menuType: 'M',
@@ -14,7 +28,13 @@ export function resetAddForm(): ModelType {
     component: '',
     orderNum: 0,
     status: '0',
-    parentId: 0
+    parentId: 0,
+    iconType: '1',
+    hideInMenu: '0',
+    isFrame: '1',
+    perms: '',
+    name: '',
+    isCache: '0'
   };
 }
 
@@ -41,7 +61,7 @@ export const formRules = {
 export const menuTypeOptions = [
   { label: '目录', value: 'M' },
   { label: '菜单', value: 'C' },
-  { label: '按钮', value: 'B' }
+  { label: '按钮', value: 'F' }
 ];
 
 export const menuStatusOptions = [
