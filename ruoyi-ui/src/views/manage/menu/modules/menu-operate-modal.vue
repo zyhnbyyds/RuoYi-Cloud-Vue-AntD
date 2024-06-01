@@ -10,6 +10,9 @@ const props = defineProps<{
   operateType: AntDesign.TableOperateType;
   editingData?: Api.SystemManage.Menu | null;
 }>();
+const emits = defineEmits<{
+  'submit-success': [];
+}>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
@@ -66,6 +69,7 @@ const submitForm = async () => {
   const { error } = await (props.operateType === 'add' ? doAddMenu(model.value) : doEditMenu(model.value));
   if (!error) {
     $message?.success($t(props.operateType === 'add' ? 'common.addSuccess' : 'common.updateSuccess'));
+    emits('submit-success');
   }
   closeModal();
 };
@@ -91,7 +95,7 @@ async function getTreeData() {
   }
 }
 
-function handleTreeSelect(_val: string, node: any) {
+function handleTreeSelect(node: any) {
   model.value.component = node.component;
   model.value.name = node.name;
 }
@@ -145,7 +149,7 @@ getTreeData();
             allow-clear
             :tree-data="componentOptions"
             tree-node-filter-prop="label"
-            @select="(_val, node) => handleTreeSelect"
+            @select="(_val, node) => handleTreeSelect(node)"
           />
           <AInput v-else v-model:value="model.path" />
         </div>

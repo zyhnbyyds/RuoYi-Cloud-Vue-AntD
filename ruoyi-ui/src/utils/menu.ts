@@ -25,14 +25,17 @@ export function transformMenuChildWithRootIds(menuList: DataNode[], checkedKeys:
   return Array.from(checkedKeysSet);
 }
 
-export function transformListToTree(list: Api.SystemManage.Menu[]) {
+export function transformListToTree<T extends { parentId: number; children?: any[] }>(
+  list: T[],
+  rowKey: Exclude<keyof T, 'children'>
+) {
   const tree = cloneDeep(list);
-  const map = new Map<number, Api.SystemManage.Menu>();
+  const map = new Map<number | string, T>();
   tree.forEach(item => {
-    map.set(item.menuId, item);
+    map.set(item[rowKey] as string, item);
   });
 
-  const treeData: Api.SystemManage.Menu[] = [];
+  const treeData: T[] = [];
   tree.forEach(item => {
     if (item.parentId === 0) {
       treeData.push(item);
@@ -48,7 +51,7 @@ export function transformListToTree(list: Api.SystemManage.Menu[]) {
   });
 
   // children为空数组的情况下，删除children字段
-  function removeEmptyChildren(treeDataGet: Api.SystemManage.Menu[]) {
+  function removeEmptyChildren(treeDataGet: T[]) {
     treeDataGet.forEach(item => {
       if (item.children && item.children.length) {
         item.children = item.children.sort((a, b) => a.orderNum - b.orderNum);

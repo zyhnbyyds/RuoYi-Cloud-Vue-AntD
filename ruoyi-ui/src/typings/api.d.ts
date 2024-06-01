@@ -325,5 +325,34 @@ declare namespace Api {
       pId: number;
       children?: MenuTree[];
     };
+
+    // dept api
+    /** dept */
+    type Dept = {
+      createBy: string;
+      createTime: string;
+      updateBy: string;
+      updateTime: string;
+      remark: string;
+      deptId: number;
+      parentId: number;
+      ancestors: string;
+      deptName: string;
+      orderNum: number;
+      leader: string;
+      phone: string;
+      email: string;
+      status: '0' | '1';
+      delFlag: string;
+      parentName: string;
+      children: Dept[];
+    };
+
+    type DeptList = Common.PaginatingQueryRecord<Dept>;
+
+    /** dept search params */
+    type DeptSearchParams = CommonType.RecordNullable<
+      Pick<Dept, 'deptName' | 'status' | 'leader'> & CommonSearchParams
+    >;
   }
 }

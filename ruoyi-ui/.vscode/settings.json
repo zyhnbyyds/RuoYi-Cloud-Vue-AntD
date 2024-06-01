@@ -15,6 +15,7 @@
   "prettier.enable": false,
   "unocss.root": ["./"],
   "cSpell.words": [
+    "fullscreen",
     "hexcode",
     "Localforage",
     "nacos",

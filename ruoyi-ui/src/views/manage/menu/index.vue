@@ -129,8 +129,12 @@ function handleDelete(id: number) {
 }
 
 const treeData = computed(() => {
-  return transformListToTree(data.value);
+  return transformListToTree(data.value, 'menuId');
 });
+
+function handleSubmitSuccess() {
+  getData();
+}
 </script>
 
 <template>
@@ -147,7 +151,12 @@ const treeData = computed(() => {
           :pagination="false"
           :loading="loading"
         />
-        <MenuOperateModal v-model:visible="drawerVisible" :editing-data="editingData" :operate-type="operateType" />
+        <MenuOperateModal
+          v-model:visible="drawerVisible"
+          :editing-data="editingData"
+          :operate-type="operateType"
+          @submit-success="handleSubmitSuccess"
+        />
       </ACard>
     </div>
   </SimpleScrollbar>

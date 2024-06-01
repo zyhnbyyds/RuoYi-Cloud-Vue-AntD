@@ -8,6 +8,8 @@ defineOptions({
 interface Props {
   disabledDelete?: boolean;
   loading?: boolean;
+  tableType?: string;
+  showDelete?: boolean;
 }
 
 defineProps<Props>();
@@ -41,14 +43,14 @@ function refresh() {
   <div class="flex flex-wrap justify-end gap-x-12px gap-y-8px lt-sm:(w-200px py-12px)">
     <slot name="prefix"></slot>
     <slot name="default">
-      <AButton v-if="isShowBtn('system:role:add')" size="small" ghost type="primary" @click="add">
+      <AButton v-if="isShowBtn(`system:${tableType}:add`)" size="small" ghost type="primary" @click="add">
         <div class="flex-y-center gap-8px">
           <icon-ic-round-plus class="text-icon" />
           <span>{{ $t('common.add') }}</span>
         </div>
       </AButton>
       <APopconfirm
-        v-if="isShowBtn('system:role:remove')"
+        v-if="isShowBtn(`system:${tableType}:remove`) && showDelete"
         :title="$t('common.confirmDelete')"
         :disabled="disabledDelete"
         @confirm="batchDelete"

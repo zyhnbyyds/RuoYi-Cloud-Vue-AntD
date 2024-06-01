@@ -29,3 +29,11 @@ export function doPostRole(role: Api.SystemManage.Role) {
 export function doDeleteRole(roleId: number | string) {
   return request({ url: `/system/role/${roleId}`, method: 'delete' });
 }
+
+export function doGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
+  return request<Api.SystemManage.RoleList>({
+    url: '/system/role/list',
+    method: 'get',
+    params
+  });
+}

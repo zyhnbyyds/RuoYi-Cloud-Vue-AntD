@@ -1,13 +1,10 @@
 <script setup lang="tsx">
-import { computed, shallowRef } from 'vue';
 import { Button, Popconfirm, Tag } from 'ant-design-vue';
-import { useElementSize } from '@vueuse/core';
 import type { Key } from 'ant-design-vue/es/_util/type';
-import { fetchGetRoleList } from '@/service/api';
+import { doGetRoleList } from '@/service/api';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
-import { doDeleteRole } from '@/service/api/role';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
 
@@ -22,7 +19,7 @@ const scrollConfig = computed(() => {
 });
 
 const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetRoleList,
+  apiFn: doGetRoleList,
   apiParams: {
     pageNum: 1,
     pageSize: 10,

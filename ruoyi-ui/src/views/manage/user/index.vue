@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <LookForward />
+  <div>用户</div>
 </template>
 
 <style scoped></style>
