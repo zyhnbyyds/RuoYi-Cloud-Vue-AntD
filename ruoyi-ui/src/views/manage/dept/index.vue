@@ -18,9 +18,7 @@ const scrollConfig = computed(() => {
 const { columns, columnChecks, data, loading, getData, searchParams, resetSearchParams } = useTable({
   apiFn: doGetDeptList,
   apiParams: {
-    status: '0',
-    deptName: null,
-    leader: null
+    status: '0'
   },
   rowKey: 'deptId',
   columns: () => [
@@ -91,7 +89,8 @@ const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedR
   useTableOperate(data, { getData, idKey: 'deptId' });
 
 const treeData = computed(() => {
-  return transformListToTree(data.value, 'deptId');
+  const rootDept = data.value.find(item => item.deptId === 100);
+  return rootDept ? transformListToTree(data.value, 'deptId') : removeEmptyChildren(data.value);
 });
 
 async function handleBatchDelete() {
@@ -117,7 +116,7 @@ function edit(id: number) {
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <DeptSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <ACard
-      title="部门管理"
+      title="部门列表"
       :bordered="false"
       :body-style="{ flex: 1, overflow: 'hidden' }"
       class="flex-col-stretch sm:flex-1-hidden card-wrapper"
@@ -146,7 +145,8 @@ function edit(id: number) {
       <DeptOperateModal
         v-model:visible="drawerVisible"
         :operate-type="operateType"
-        :row-data="editingData"
+        :tree-data="treeData"
+        :editing-data="editingData"
         @submitted="getData"
       />
     </ACard>

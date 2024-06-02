@@ -359,6 +359,7 @@ declare namespace App {
             validateSuccess: string;
             loginSuccess: string;
             welcomeBack: string;
+            checkCode: string;
           };
           pwdLogin: {
             title: string;
@@ -574,6 +575,16 @@ declare namespace App {
             iconType: {
               iconify: string;
               local: string;
+            };
+          };
+          dept: {
+            deptName: string;
+            leader: string;
+            status: string;
+            form: {
+              deptName: string;
+              leader: string;
+              status: string;
             };
           };
         };

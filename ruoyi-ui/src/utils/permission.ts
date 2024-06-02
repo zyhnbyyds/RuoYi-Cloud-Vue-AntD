@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/store/modules/auth';
 
 export function isShowBtn(permission: string) {
-  const { permissions } = storeToRefs(useAuthStore());
+  const { permissions, userInfo } = storeToRefs(useAuthStore());
 
-  return permissions.value.includes(permission);
+  return userInfo.value.roles.includes('admin') || permissions.value.includes(permission);
 }

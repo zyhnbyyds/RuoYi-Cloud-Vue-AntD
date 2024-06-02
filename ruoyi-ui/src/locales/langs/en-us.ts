@@ -155,16 +155,12 @@ const local: App.I18n.Schema = {
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
-    'multi-menu': 'Multi Menu',
-    'multi-menu_first': 'Menu One',
-    'multi-menu_first_child': 'Menu One Child',
-    'multi-menu_second': 'Menu Two',
-    'multi-menu_second_child': 'Menu Two Child',
-    'multi-menu_second_child_home': 'Menu Two Child Home',
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500'
+    exception_500: '500',
+    manage_dept: 'Dept Manage',
+    manage_route: 'Route Manage'
   },
   page: {
     login: {
@@ -247,7 +243,7 @@ const local: App.I18n.Schema = {
         title: 'Project News',
         moreNews: 'More News',
         desc1: 'Soybean created the open source project soybean-admin on May 28, 2021!',
-        desc2: 'Yanbowe submitted a bug to soybean-admin, the multi-tab bar will not adapt.',
+        desc2: 'zyh submitted a bug to soybean-admin, the multi-tab bar will not adapt.',
         desc3: 'Soybean is ready to do sufficient preparation for the release of soybean-admin!',
         desc4: 'Soybean is busy writing project documentation for soybean-admin!',
         desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
@@ -397,6 +393,16 @@ const local: App.I18n.Schema = {
         iconType: {
           iconify: 'Iconify Icon',
           local: 'Local Icon'
+        }
+      },
+      dept: {
+        deptName: 'Department Name',
+        leader: 'Leader',
+        status: 'Status',
+        form: {
+          deptName: 'Please enter department name',
+          leader: 'Please enter leader name',
+          status: 'Please select status'
         }
       }
     }

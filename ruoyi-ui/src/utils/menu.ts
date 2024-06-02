@@ -49,18 +49,23 @@ export function transformListToTree<T extends { parentId: number; children?: any
       }
     }
   });
+  return removeEmptyChildren(treeData);
+}
 
-  // children为空数组的情况下，删除children字段
-  function removeEmptyChildren(treeDataGet: T[]) {
-    treeDataGet.forEach(item => {
-      if (item.children && item.children.length) {
-        item.children = item.children.sort((a, b) => a.orderNum - b.orderNum);
-        removeEmptyChildren(item.children);
-      } else {
-        delete item.children;
-      }
-    });
-  }
-  removeEmptyChildren(treeData);
-  return treeData;
+/**
+ * Remove empty children
+ *
+ * @param treeDataGet tree data
+ */
+export function removeEmptyChildren<T extends { parentId: number; children?: any[] }>(treeDataGet: T[]) {
+  const clonedTreeDataGet = cloneDeep(treeDataGet);
+  clonedTreeDataGet.forEach(item => {
+    if (item.children && item.children.length) {
+      item.children = item.children.sort((a, b) => a.orderNum - b.orderNum);
+      removeEmptyChildren(item.children);
+    } else {
+      delete item.children;
+    }
+  });
+  return clonedTreeDataGet;
 }

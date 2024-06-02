@@ -155,16 +155,12 @@ const local: App.I18n.Schema = {
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
-    'multi-menu': '多级菜单',
-    'multi-menu_first': '菜单一',
-    'multi-menu_first_child': '菜单一子菜单',
-    'multi-menu_second': '菜单二',
-    'multi-menu_second_child': '菜单二子菜单',
-    'multi-menu_second_child_home': '菜单二子菜单首页',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500'
+    exception_500: '500',
+    manage_dept: '部门管理',
+    manage_route: '路由管理'
   },
   page: {
     login: {
@@ -397,6 +393,16 @@ const local: App.I18n.Schema = {
         iconType: {
           iconify: 'iconify图标',
           local: '本地图标'
+        }
+      },
+      dept: {
+        deptName: '部门名称',
+        leader: '负责人',
+        status: '状态',
+        form: {
+          deptName: '请输入部门名称',
+          leader: '请输入负责人',
+          status: '请选择状态'
         }
       }
     }

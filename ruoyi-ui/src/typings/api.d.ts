@@ -351,8 +351,6 @@ declare namespace Api {
     type DeptList = Common.PaginatingQueryRecord<Dept>;
 
     /** dept search params */
-    type DeptSearchParams = CommonType.RecordNullable<
-      Pick<Dept, 'deptName' | 'status' | 'leader'> & CommonSearchParams
-    >;
+    type DeptSearchParams = Partial<Pick<Dept, 'deptName' | 'status'> & CommonSearchParams>;
   }
 }

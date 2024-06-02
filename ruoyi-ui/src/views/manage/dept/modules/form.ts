@@ -5,7 +5,7 @@ const { defaultRequiredRule } = useFormRules();
 export function resetForm(): DeptFormType {
   return {
     deptName: '',
-    parentId: 0,
+    parentId: 100,
     orderNum: 0,
     leader: '',
     phone: '',
