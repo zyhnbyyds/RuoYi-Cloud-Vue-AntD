@@ -1,13 +1,14 @@
 package com.ruoyi.system.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.core.web.domain.BaseEntity;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单权限表 sys_menu
@@ -63,6 +64,9 @@ public class SysMenu extends BaseEntity
     /** 菜单图标 */
     private String icon;
 
+    /** 菜单key */
+    private String name;
+
     public String getName() {
         return name;
     }
@@ -70,9 +74,6 @@ public class SysMenu extends BaseEntity
     public void setName(String name) {
         this.name = name;
     }
-
-    /** 菜单key */
-    private String name;
 
     /** 子菜单 */
     private List<SysMenu> children = new ArrayList<SysMenu>();
