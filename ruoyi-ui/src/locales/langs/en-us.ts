@@ -160,7 +160,9 @@ const local: App.I18n.Schema = {
     exception_404: '404',
     exception_500: '500',
     manage_dept: 'Dept Manage',
-    manage_route: 'Route Manage'
+    manage_route: 'Route Manage',
+    manage_post: 'Post Manage',
+    manage_dict: 'Dict Manage'
   },
   page: {
     login: {
@@ -308,28 +310,23 @@ const local: App.I18n.Schema = {
         editRole: 'Edit Role'
       },
       user: {
-        title: 'User List',
-        username: 'User Name',
-        userGender: 'Gender',
-        nickName: 'Nick Name',
-        userPhone: 'Phone Number',
-        userEmail: 'Email',
-        userStatus: 'User Status',
-        userRole: 'User Role',
-        form: {
-          username: 'Please enter user name',
-          userGender: 'Please select gender',
-          nickName: 'Please enter nick name',
-          userPhone: 'Please enter phone number',
-          userEmail: 'Please enter email',
-          userStatus: 'Please select user status',
-          userRole: 'Please select user role'
-        },
+        userName: 'Username',
+        nickName: 'Nickname',
+        email: 'Email',
+        phonenumber: 'Phone number',
+        status: 'Status',
+        dept: 'Department',
+        title: 'User Management',
         addUser: 'Add User',
         editUser: 'Edit User',
-        gender: {
-          male: 'Male',
-          female: 'Female'
+        remark: 'Remark',
+        form: {
+          userName: 'Please enter username',
+          email: 'Please enter email',
+          status: 'Please select status',
+          nickName: 'Please enter nickname',
+          phonenumber: 'Please enter phone number',
+          remark: 'Please enter remark'
         }
       },
       menu: {
@@ -403,6 +400,22 @@ const local: App.I18n.Schema = {
           deptName: 'Please enter department name',
           leader: 'Please enter leader name',
           status: 'Please select status'
+        }
+      },
+      post: {
+        addPost: 'Add Post',
+        editPost: 'Edit Post',
+        postCode: 'Post Code',
+        postName: 'Post Name',
+        postSort: 'Post Sort',
+        status: 'Status',
+        remark: 'Remark',
+        title: 'Post list',
+        form: {
+          postCode: 'Please enter the post code',
+          postName: 'Please enter the post name',
+          postSort: 'Please enter the post sort',
+          remark: 'Please enter the remark'
         }
       }
     }

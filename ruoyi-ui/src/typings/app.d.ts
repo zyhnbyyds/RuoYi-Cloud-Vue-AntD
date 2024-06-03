@@ -490,28 +490,23 @@ declare namespace App {
             buttonAuth: string;
           };
           user: {
-            title: string;
-            username: string;
-            userGender: string;
+            userName: string;
             nickName: string;
-            userPhone: string;
-            userEmail: string;
-            userStatus: string;
-            userRole: string;
-            form: {
-              username: string;
-              userGender: string;
-              nickName: string;
-              userPhone: string;
-              userEmail: string;
-              userStatus: string;
-              userRole: string;
-            };
+            email: string;
+            phonenumber: string;
+            status: string;
+            dept: string;
+            title: string;
             addUser: string;
+            remark: string;
             editUser: string;
-            gender: {
-              male: string;
-              female: string;
+            form: {
+              userName: string;
+              email: string;
+              status: string;
+              nickName: string;
+              phonenumber: string;
+              remark: string;
             };
           };
           menu: {
@@ -585,6 +580,22 @@ declare namespace App {
               deptName: string;
               leader: string;
               status: string;
+            };
+          };
+          post: {
+            addPost: string;
+            editPost: string;
+            postName: string;
+            postCode: string;
+            postSort: string;
+            status: string;
+            remark: string;
+            title: string;
+            form: {
+              postName: string;
+              postCode: string;
+              postSort: string;
+              remark: string;
             };
           };
         };

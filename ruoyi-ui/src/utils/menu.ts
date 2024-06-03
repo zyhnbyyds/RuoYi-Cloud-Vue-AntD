@@ -57,9 +57,12 @@ export function transformListToTree<T extends { parentId: number; children?: any
  *
  * @param treeDataGet tree data
  */
-export function removeEmptyChildren<T extends { parentId: number; children?: any[] }>(treeDataGet: T[]) {
-  const clonedTreeDataGet = cloneDeep(treeDataGet);
-  clonedTreeDataGet.forEach(item => {
+export function removeEmptyChildren<T extends { parentId: number; children?: any[] }>(
+  treeDataGet: T[],
+  isClone = false
+) {
+  const tree = isClone ? cloneDeep(treeDataGet) : treeDataGet;
+  tree.forEach(item => {
     if (item.children && item.children.length) {
       item.children = item.children.sort((a, b) => a.orderNum - b.orderNum);
       removeEmptyChildren(item.children);
@@ -67,5 +70,5 @@ export function removeEmptyChildren<T extends { parentId: number; children?: any
       delete item.children;
     }
   });
-  return clonedTreeDataGet;
+  return tree;
 }

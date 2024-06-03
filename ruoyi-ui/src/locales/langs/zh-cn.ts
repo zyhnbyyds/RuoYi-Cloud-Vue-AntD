@@ -160,7 +160,9 @@ const local: App.I18n.Schema = {
     exception_404: '404',
     exception_500: '500',
     manage_dept: '部门管理',
-    manage_route: '路由管理'
+    manage_route: '路由管理',
+    manage_post: '岗位管理',
+    manage_dict: '字典管理'
   },
   page: {
     login: {
@@ -308,28 +310,23 @@ const local: App.I18n.Schema = {
         editRole: '编辑角色'
       },
       user: {
-        title: '用户列表',
-        username: '用户名',
-        userGender: '性别',
+        userName: '用户名',
         nickName: '昵称',
-        userPhone: '手机号',
-        userEmail: '邮箱',
-        userStatus: '用户状态',
-        userRole: '用户角色',
-        form: {
-          username: '请输入用户名',
-          userGender: '请选择性别',
-          nickName: '请输入昵称',
-          userPhone: '请输入手机号',
-          userEmail: '请输入邮箱',
-          userStatus: '请选择用户状态',
-          userRole: '请选择用户角色'
-        },
+        email: '电子邮件',
+        phonenumber: '电话号码',
+        status: '状态',
+        dept: '部门',
+        title: '用户管理',
         addUser: '新增用户',
         editUser: '编辑用户',
-        gender: {
-          male: '男',
-          female: '女'
+        remark: '备注',
+        form: {
+          userName: '请输入用户名',
+          email: '请输入电子邮件',
+          status: '请选择状态',
+          nickName: '请输入昵称',
+          phonenumber: '请输入电话号码',
+          remark: '请输入备注'
         }
       },
       menu: {
@@ -403,6 +400,22 @@ const local: App.I18n.Schema = {
           deptName: '请输入部门名称',
           leader: '请输入负责人',
           status: '请选择状态'
+        }
+      },
+      post: {
+        addPost: '新增岗位',
+        editPost: '编辑岗位',
+        postCode: '岗位编码',
+        postName: '岗位名称',
+        postSort: '岗位顺序',
+        status: '状态',
+        title: '岗位列表',
+        remark: '备注',
+        form: {
+          postCode: '请输入岗位编码',
+          postName: '请输入岗位名称',
+          postSort: '请输入岗位顺序',
+          remark: '请输入备注'
         }
       }
     }

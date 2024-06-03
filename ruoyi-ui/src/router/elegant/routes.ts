@@ -213,6 +213,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'manage_dict',
+        path: '/manage/dict',
+        component: 'view.manage_dict',
+        meta: {
+          title: 'manage_dict',
+          i18nKey: 'route.manage_dict'
+        }
+      },
+      {
         name: 'manage_menu',
         path: '/manage/menu',
         component: 'view.manage_menu',
@@ -223,6 +232,15 @@ export const generatedRoutes: GeneratedRoute[] = [
           order: 3,
           roles: ['R_ADMIN'],
           keepAlive: true
+        }
+      },
+      {
+        name: 'manage_post',
+        path: '/manage/post',
+        component: 'view.manage_post',
+        meta: {
+          title: 'manage_post',
+          i18nKey: 'route.manage_post'
         }
       },
       {
@@ -279,8 +297,10 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.user-center',
     meta: {
       title: 'user-center',
-      i18nKey: 'route.user-center',
-      hideInMenu: true
+      hideInMenu: true,
+      constant: true,
+      keepAlive: false,
+      i18nKey: 'route.user-center'
     }
   }
 ];

@@ -95,7 +95,7 @@ declare namespace Api {
       sex: string;
       avatar: string;
       password: string;
-      status: string;
+      status: '0' | '1';
       delFlag: string;
       loginIp: string;
       loginDate: string;
@@ -203,7 +203,7 @@ declare namespace Api {
     type UserGender = '1' | '2';
 
     /** user */
-    type User = Common.CommonRecord<{
+    type UserInfo = Common.CommonRecord<{
       /** user name */
       username: string;
       /** user gender */
@@ -219,13 +219,12 @@ declare namespace Api {
     }>;
 
     /** user search params */
-    type UserSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.User, 'username' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'> &
-        CommonSearchParams
+    type UserSearchParams = Partial<
+      Pick<Auth.User, 'userName' | 'nickName' | 'phonenumber' | 'status' | 'sex' | 'email'> & CommonSearchParams
     >;
 
     /** user list */
-    type UserList = Common.PaginatingQueryRecord<User>;
+    type UserList = Common.PaginatingQueryRecord<Auth.User>;
 
     /**
      * menu type
@@ -352,5 +351,24 @@ declare namespace Api {
 
     /** dept search params */
     type DeptSearchParams = Partial<Pick<Dept, 'deptName' | 'status'> & CommonSearchParams>;
+
+    // post api
+    type Post = {
+      createBy: string;
+      createTime: string;
+      updateBy: any;
+      updateTime: any;
+      remark: string;
+      postId: number;
+      postCode: string;
+      postName: string;
+      postSort: number;
+      status: '0' | '1';
+      flag: boolean;
+    };
+
+    type PostSearchParams = Partial<Pick<Post, 'postName' | 'status' | 'postCode'> & CommonSearchParams>;
+
+    type PostList = Common.PaginatingQueryRecord<Post>;
   }
 }

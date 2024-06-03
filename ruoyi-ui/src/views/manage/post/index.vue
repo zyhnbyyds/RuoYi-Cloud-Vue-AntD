@@ -1,11 +1,11 @@
 <script setup lang="tsx">
-import { Button, Popconfirm, Tag } from 'ant-design-vue';
 import type { Key } from 'ant-design-vue/es/_util/type';
+import { Button, Popconfirm, Tag } from 'ant-design-vue';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
-import UserOperateDrawer from './modules/user-operate-drawer.vue';
-import UserSearch from './modules/user-search.vue';
+import PostOperateDrawer from './modules/post-operate-drawer.vue';
+import PostSearch from './modules/post-search.vue';
 
 const wrapperEl = shallowRef<HTMLElement | null>(null);
 const { height: wrapperElHeight } = useElementSize(wrapperEl);
@@ -18,44 +18,37 @@ const scrollConfig = computed(() => {
 });
 
 const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: doGetUserList,
+  apiFn: doGetPostList,
   apiParams: {
     pageNum: 1,
     pageSize: 10,
     status: undefined,
-    userName: undefined,
-    email: undefined
+    postName: undefined
   },
-  rowKey: 'userId',
+  rowKey: 'postId',
   columns: () => [
     {
-      key: 'userName',
-      dataIndex: 'userName',
-      title: $t('page.manage.user.userName'),
+      key: 'postCode',
+      dataIndex: 'postCode',
+      title: $t('page.manage.post.postCode'),
       align: 'center'
     },
     {
-      key: 'nickName',
-      dataIndex: 'nickName',
-      title: $t('page.manage.user.nickName'),
+      key: 'postName',
+      dataIndex: 'postName',
+      title: $t('page.manage.post.postName'),
       align: 'center'
     },
     {
-      key: 'email',
-      dataIndex: 'email',
-      title: $t('page.manage.user.email'),
-      align: 'center'
-    },
-    {
-      key: 'phonenumber',
-      dataIndex: 'phonenumber',
-      title: $t('page.manage.user.phonenumber'),
+      key: 'postSort',
+      dataIndex: 'postSort',
+      title: $t('page.manage.post.postSort'),
       align: 'center'
     },
     {
       key: 'status',
       dataIndex: 'status',
-      title: $t('page.manage.user.status'),
+      title: $t('page.manage.post.status'),
       align: 'center',
       customRender: ({ record }) => {
         if (record.status === null) {
@@ -70,11 +63,9 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       }
     },
     {
-      key: 'dept',
-      dataIndex: 'dept',
-      title: $t('page.manage.user.dept'),
-      align: 'center',
-      customRender: ({ record }) => record.dept?.deptName || ''
+      key: 'remark',
+      dataIndex: 'remark',
+      title: $t('page.manage.post.remark')
     },
     {
       key: 'operate',
@@ -82,15 +73,15 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       align: 'center',
       width: 200,
       customRender: ({ record }) =>
-        !record.admin && (
+        !record.flag && (
           <div class="flex justify-around gap-8px">
-            {isShowBtn('system:user:edit') && (
-              <Button size="small" onClick={() => edit(record.userId)}>
+            {isShowBtn('system:post:edit') && (
+              <Button size="small" onClick={() => edit(record.postId)}>
                 {$t('common.edit')}
               </Button>
             )}
-            {isShowBtn('system:user:remove') && (
-              <Popconfirm onConfirm={() => handleDelete(record.userId)} title={$t('common.confirmDelete')}>
+            {isShowBtn('system:post:remove') && (
+              <Popconfirm onConfirm={() => handleDelete(record.postId)} title={$t('common.confirmDelete')}>
                 <Button danger size="small">
                   {$t('common.delete')}
                 </Button>
@@ -102,27 +93,18 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
   ]
 });
 
-const {
-  drawerVisible,
-  operateType,
-  editingData,
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, { getData, idKey: 'userId' });
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onBatchDeleted, onDeleted } =
+  useTableOperate(data, { getData, idKey: 'postId' });
 
 async function handleBatchDelete() {
-  const { error } = await doDeleteUser(checkedRowKeys.value.join(','));
+  const { error } = await doDeletePost(checkedRowKeys.value.join(','));
   if (!error) {
     onBatchDeleted();
   }
 }
 
 async function handleDelete(id: number) {
-  const { error } = await doDeleteUser(id);
+  const { error } = await doDeletePost(id);
   if (!error) {
     onDeleted();
   }
@@ -132,16 +114,16 @@ function edit(id: number) {
   handleEdit(id);
 }
 
-function handleUserSelectChange(selectedRowKeys: Key[]) {
+function handlePostSelectChange(selectedRowKeys: Key[]) {
   checkedRowKeys.value = selectedRowKeys as number[];
 }
 </script>
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <PostSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
     <ACard
-      :title="$t('page.manage.user.title')"
+      :title="$t('page.manage.post.title')"
       :bordered="false"
       :body-style="{ flex: 1, overflow: 'hidden' }"
       class="flex-col-stretch sm:flex-1-hidden card-wrapper"
@@ -161,14 +143,14 @@ function handleUserSelectChange(selectedRowKeys: Key[]) {
         :columns="columns"
         :data-source="data"
         :loading="loading"
-        :row-selection="{ selectedRowKeys: checkedRowKeys, onChange: handleUserSelectChange }"
-        row-key="userId"
+        :row-selection="{ selectedRowKeys: checkedRowKeys, onChange: handlePostSelectChange }"
+        row-key="postId"
         size="small"
         :pagination="mobilePagination"
         :scroll="scrollConfig"
         class="h-full"
       />
-      <UserOperateDrawer
+      <PostOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"

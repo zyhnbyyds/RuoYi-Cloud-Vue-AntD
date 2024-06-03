@@ -20,6 +20,7 @@
     "Localforage",
     "nacos",
     "Simplebar",
-    "treeselect"
+    "treeselect",
+    "userinfo"
   ]
 }
