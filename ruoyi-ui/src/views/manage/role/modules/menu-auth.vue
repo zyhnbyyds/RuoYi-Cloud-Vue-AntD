@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DataNode } from 'ant-design-vue/es/tree';
 import { SimpleScrollbar } from '@sa/materials';
-import { doGetRoleMenuList, fetchGetMenuTree } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'

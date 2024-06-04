@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import { Button, Popconfirm, Tag } from 'ant-design-vue';
 import type { Key } from 'ant-design-vue/es/_util/type';
-import { doGetRoleList } from '@/service/api';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';

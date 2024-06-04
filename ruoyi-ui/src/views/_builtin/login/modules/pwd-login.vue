@@ -2,7 +2,6 @@
 import { $t } from '@/locales';
 import { useAntdForm, useFormRules } from '@/hooks/common/form';
 import { useAuthStore } from '@/store/modules/auth';
-import { doGetCheckCode } from '@/service/api/auth';
 
 defineOptions({
   name: 'PwdLogin'
