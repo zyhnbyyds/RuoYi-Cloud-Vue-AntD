@@ -415,7 +415,8 @@ const local: App.I18n.Schema = {
           postCode: 'Please enter the post code',
           postName: 'Please enter the post name',
           postSort: 'Please enter the post sort',
-          remark: 'Please enter the remark'
+          remark: 'Please enter the remark',
+          status: 'Please select status'
         }
       }
     }

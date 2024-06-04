@@ -23,7 +23,8 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     pageNum: 1,
     pageSize: 10,
     status: undefined,
-    postName: undefined
+    postName: undefined,
+    postCode: undefined
   },
   rowKey: 'postId',
   columns: () => [
@@ -65,6 +66,7 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     {
       key: 'remark',
       dataIndex: 'remark',
+      align: 'center',
       title: $t('page.manage.post.remark')
     },
     {
@@ -133,6 +135,8 @@ function handlePostSelectChange(selectedRowKeys: Key[]) {
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :show-delete="true"
+          table-type="post"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

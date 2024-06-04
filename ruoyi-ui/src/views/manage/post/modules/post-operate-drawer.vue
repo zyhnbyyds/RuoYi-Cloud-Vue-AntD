@@ -123,7 +123,7 @@ watch(
           </ARadioGroup>
         </AFormItem>
         <AFormItem :label="$t('page.manage.post.remark')" name="remark">
-          <AInput v-model:value="model.remark" :placeholder="$t('page.manage.post.form.remark')" />
+          <ATextarea v-model:value="model.remark" :placeholder="$t('page.manage.post.form.remark')" />
         </AFormItem>
       </AForm>
     </SimpleScrollbar>
@@ -137,4 +137,8 @@ watch(
   </ADrawer>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.ant-input-number) {
+  width: 100%;
+}
+</style>

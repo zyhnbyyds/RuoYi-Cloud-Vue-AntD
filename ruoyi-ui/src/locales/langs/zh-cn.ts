@@ -415,7 +415,8 @@ const local: App.I18n.Schema = {
           postCode: '请输入岗位编码',
           postName: '请输入岗位名称',
           postSort: '请输入岗位顺序',
-          remark: '请输入备注'
+          remark: '请输入备注',
+          status: '请选择状态'
         }
       }
     }

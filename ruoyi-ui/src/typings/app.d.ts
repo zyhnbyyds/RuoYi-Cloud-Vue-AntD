@@ -596,6 +596,7 @@ declare namespace App {
               postCode: string;
               postSort: string;
               remark: string;
+              status: string;
             };
           };
         };
