@@ -66,6 +66,12 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       title: $t('page.manage.role.roleDesc')
     },
     {
+      key: 'createTime',
+      dataIndex: 'createTime',
+      align: 'center',
+      title: '创建时间'
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
@@ -138,6 +144,7 @@ function handleRoleSelectChange(selectedRowKeys: Key[]) {
       <template #extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
+          :show-delete="true"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           @add="handleAdd"
@@ -150,7 +157,11 @@ function handleRoleSelectChange(selectedRowKeys: Key[]) {
         :columns="columns"
         :data-source="data"
         :loading="loading"
-        :row-selection="{ selectedRowKeys: checkedRowKeys, onChange: handleRoleSelectChange }"
+        :row-selection="{
+          selectedRowKeys: checkedRowKeys,
+          onChange: handleRoleSelectChange,
+          getCheckboxProps: record => ({ disabled: record.admin })
+        }"
         row-key="id"
         size="small"
         :pagination="mobilePagination"

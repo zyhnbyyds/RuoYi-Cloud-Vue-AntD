@@ -20,3 +20,35 @@ export function doGetUserList(params?: Api.SystemManage.UserSearchParams) {
     params
   });
 }
+
+/**
+ * 获取用户信息
+ *
+ * @returns 用户信息[posts & roles]
+ */
+export function doGetUserPostsAndRoles(userId: number | string | undefined) {
+  if (!userId) {
+    return request<Api.SystemManage.UserPostsAndRoles>({
+      url: '/system/user/',
+      method: 'get'
+    });
+  }
+  return request<Api.SystemManage.UserPostsAndRoles>({
+    url: `/system/user/${userId}`,
+    method: 'get'
+  });
+}
+
+export function doGetAdminUserPostsAndRoles() {
+  return request<Api.SystemManage.UserPostsAndRoles>({
+    url: `/system/user`,
+    method: 'get'
+  });
+}
+
+export function doGetUserDeptTree() {
+  return request<Api.Common.CommonTree>({
+    url: '/system/user/deptTree',
+    method: 'get'
+  });
+}

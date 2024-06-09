@@ -4,6 +4,7 @@ import type { Key } from 'ant-design-vue/es/_util/type';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
+import { SimpleScrollbar } from '~/packages/materials/src';
 import UserOperateDrawer from './modules/user-operate-drawer.vue';
 import UserSearch from './modules/user-search.vue';
 
@@ -77,6 +78,12 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       customRender: ({ record }) => record.dept?.deptName || ''
     },
     {
+      key: 'createTime',
+      dataIndex: 'createTime',
+      align: 'center',
+      title: '创建时间'
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
@@ -114,6 +121,12 @@ const {
   // closeDrawer
 } = useTableOperate(data, { getData, idKey: 'userId' });
 
+const deptTreeData = ref<Api.Common.CommonTree>([]);
+
+onMounted(() => {
+  getUserDeptTree();
+});
+
 async function handleBatchDelete() {
   const { error } = await doDeleteUser(checkedRowKeys.value.join(','));
   if (!error) {
@@ -135,47 +148,69 @@ function edit(id: number) {
 function handleUserSelectChange(selectedRowKeys: Key[]) {
   checkedRowKeys.value = selectedRowKeys as number[];
 }
+
+async function getUserDeptTree() {
+  const { error, data: tree } = await doGetUserDeptTree();
+  if (!error) {
+    deptTreeData.value = tree;
+  }
+}
 </script>
 
 <template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <ACard
-      :title="$t('page.manage.user.title')"
-      :bordered="false"
-      :body-style="{ flex: 1, overflow: 'hidden' }"
-      class="flex-col-stretch sm:flex-1-hidden card-wrapper"
-    >
-      <template #extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
+  <SimpleScrollbar>
+    <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+      <UserSearch
+        v-model:model="searchParams"
+        :dept-tree-data="deptTreeData"
+        @reset="resetSearchParams"
+        @search="getData"
+      />
+      <ACard
+        :title="$t('page.manage.user.title')"
+        :bordered="false"
+        :body-style="{ flex: 1, overflow: 'hidden' }"
+        class="flex-col-stretch sm:flex-1-hidden card-wrapper"
+      >
+        <template #extra>
+          <TableHeaderOperation
+            v-model:columns="columnChecks"
+            :disabled-delete="checkedRowKeys.length === 0"
+            :loading="loading"
+            :show-delete="true"
+            @add="handleAdd"
+            @delete="handleBatchDelete"
+            @refresh="getData"
+          />
+        </template>
+        <ATable
+          ref="wrapperEl"
+          :columns="columns"
+          :data-source="data"
           :loading="loading"
-          @add="handleAdd"
-          @delete="handleBatchDelete"
-          @refresh="getData"
+          :row-selection="{
+            selectedRowKeys: checkedRowKeys,
+            onChange: handleUserSelectChange,
+            getCheckboxProps: record => ({
+              disabled: record.admin
+            })
+          }"
+          row-key="userId"
+          size="small"
+          :pagination="mobilePagination"
+          :scroll="scrollConfig"
+          class="h-full"
         />
-      </template>
-      <ATable
-        ref="wrapperEl"
-        :columns="columns"
-        :data-source="data"
-        :loading="loading"
-        :row-selection="{ selectedRowKeys: checkedRowKeys, onChange: handleUserSelectChange }"
-        row-key="userId"
-        size="small"
-        :pagination="mobilePagination"
-        :scroll="scrollConfig"
-        class="h-full"
-      />
-      <UserOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
-      />
-    </ACard>
-  </div>
+        <UserOperateDrawer
+          v-model:visible="drawerVisible"
+          :dept-tree-data="deptTreeData"
+          :operate-type="operateType"
+          :row-data="editingData"
+          @submitted="getData"
+        />
+      </ACard>
+    </div>
+  </SimpleScrollbar>
 </template>
 
 <style scoped></style>

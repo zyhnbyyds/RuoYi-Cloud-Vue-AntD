@@ -37,6 +37,12 @@ declare namespace Api {
       /** record status */
       status: EnableStatus;
     } & T;
+
+    type CommonTree = {
+      id: number;
+      label: string;
+      children?: CommonTree[];
+    }[];
   }
 
   namespace Department {
@@ -101,9 +107,9 @@ declare namespace Api {
       loginDate: string;
       dept: Department.Dept;
       roles: Role[];
-      roleIds: any;
-      postIds: any;
-      roleId: any;
+      roleId: string;
+      postIds: number[];
+      roleIds: number[];
       admin: boolean;
     }
 
@@ -220,11 +226,19 @@ declare namespace Api {
 
     /** user search params */
     type UserSearchParams = Partial<
-      Pick<Auth.User, 'userName' | 'nickName' | 'phonenumber' | 'status' | 'sex' | 'email'> & CommonSearchParams
+      Pick<Auth.User, 'userName' | 'nickName' | 'phonenumber' | 'status' | 'sex' | 'email' | 'deptId'> &
+        CommonSearchParams
     >;
 
     /** user list */
     type UserList = Common.PaginatingQueryRecord<Auth.User>;
+
+    type UserPostsAndRoles = {
+      posts: Post[];
+      roles: Role[];
+      postIds: number[];
+      roleIds: number[];
+    };
 
     /**
      * menu type

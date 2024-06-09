@@ -320,13 +320,18 @@ const local: App.I18n.Schema = {
         addUser: '新增用户',
         editUser: '编辑用户',
         remark: '备注',
+        password: '密码',
+        role: '角色',
+        post: '岗位',
         form: {
           userName: '请输入用户名',
           email: '请输入电子邮件',
           status: '请选择状态',
           nickName: '请输入昵称',
           phonenumber: '请输入电话号码',
-          remark: '请输入备注'
+          remark: '请输入备注',
+          password: '请输入密码',
+          dept: '请选择部门'
         }
       },
       menu: {

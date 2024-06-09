@@ -81,6 +81,8 @@ export function useTable<A extends AntDesign.TableApiFn>(config: AntDesign.AntDe
     showSizeChanger: true,
     pageSizeOptions: [10, 15, 20, 25, 30],
     total: 0,
+    simple: false,
+    // size: 'f',
     current: 1,
     pageSize: 10,
     onChange: async (current: number, pageSize: number) => {

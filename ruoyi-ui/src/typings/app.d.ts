@@ -500,6 +500,9 @@ declare namespace App {
             addUser: string;
             remark: string;
             editUser: string;
+            post: string;
+            role: string;
+            password: string;
             form: {
               userName: string;
               email: string;
@@ -507,6 +510,8 @@ declare namespace App {
               nickName: string;
               phonenumber: string;
               remark: string;
+              password: string;
+              dept: string;
             };
           };
           menu: {

@@ -320,13 +320,18 @@ const local: App.I18n.Schema = {
         addUser: 'Add User',
         editUser: 'Edit User',
         remark: 'Remark',
+        password: 'Password',
+        post: 'Post',
+        role: 'Role',
         form: {
           userName: 'Please enter username',
           email: 'Please enter email',
           status: 'Please select status',
           nickName: 'Please enter nickname',
           phonenumber: 'Please enter phone number',
-          remark: 'Please enter remark'
+          remark: 'Please enter remark',
+          password: 'Please enter password',
+          dept: 'Please select department'
         }
       },
       menu: {

@@ -61,6 +61,12 @@ const { columns, columnChecks, data, loading, getData, searchParams, resetSearch
       title: '备注'
     },
     {
+      key: 'createTime',
+      dataIndex: 'createTime',
+      align: 'center',
+      title: '创建时间'
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',

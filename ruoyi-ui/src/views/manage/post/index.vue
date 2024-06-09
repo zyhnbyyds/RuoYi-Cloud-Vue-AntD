@@ -70,6 +70,12 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       title: $t('page.manage.post.remark')
     },
     {
+      key: 'createTime',
+      dataIndex: 'createTime',
+      align: 'center',
+      title: '创建时间'
+    },
+    {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',

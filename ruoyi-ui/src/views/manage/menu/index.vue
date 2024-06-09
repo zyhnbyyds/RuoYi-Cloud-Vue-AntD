@@ -84,6 +84,12 @@ const { data, columns, loading, getData } = useTable({
       }
     },
     {
+      key: 'createTime',
+      dataIndex: 'createTime',
+      align: 'center',
+      title: '创建时间'
+    },
+    {
       key: 'operate',
       title: '操作',
       align: 'center',
