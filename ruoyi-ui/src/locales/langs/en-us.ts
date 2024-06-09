@@ -423,6 +423,21 @@ const local: App.I18n.Schema = {
           remark: 'Please enter the remark',
           status: 'Please select status'
         }
+      },
+      dict: {
+        title: 'Dictionary Management',
+        dictName: 'Dictionary Name',
+        dictType: 'Dictionary Type',
+        status: 'Status',
+        remark: 'Remark',
+        form: {
+          dictName: 'Please enter dictionary name',
+          dictType: 'Please enter dictionary type',
+          status: 'Please select status',
+          remark: 'Please enter remark'
+        },
+        addDict: 'Add Dictionary',
+        editDict: 'Edit Dictionary'
       }
     }
   },

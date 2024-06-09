@@ -423,6 +423,21 @@ const local: App.I18n.Schema = {
           remark: '请输入备注',
           status: '请选择状态'
         }
+      },
+      dict: {
+        title: '字典管理',
+        dictName: '字典名称',
+        dictType: '字典类型',
+        status: '状态',
+        remark: '备注',
+        form: {
+          dictName: '请输入字典名称',
+          dictType: '请输入字典类型',
+          status: '请选择状态',
+          remark: '请输入备注'
+        },
+        addDict: '新增字典',
+        editDict: '编辑字典'
       }
     }
   },

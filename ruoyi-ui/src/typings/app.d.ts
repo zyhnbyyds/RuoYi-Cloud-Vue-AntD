@@ -604,6 +604,22 @@ declare namespace App {
               status: string;
             };
           };
+
+          dict: {
+            title: string;
+            dictName: string;
+            dictType: string;
+            status: string;
+            remark: string;
+            form: {
+              dictName: string;
+              dictType: string;
+              status: string;
+              remark: string;
+            };
+            addDict: string;
+            editDict: string;
+          };
         };
       };
       form: {

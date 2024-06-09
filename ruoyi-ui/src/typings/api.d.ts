@@ -384,5 +384,23 @@ declare namespace Api {
     type PostSearchParams = Partial<Pick<Post, 'postName' | 'status' | 'postCode'> & CommonSearchParams>;
 
     type PostList = Common.PaginatingQueryRecord<Post>;
+
+    // dict api
+    type Dict = {
+      createBy: string;
+      createTime: string;
+      updateBy: string;
+      updateTime: string;
+      remark: string;
+      dictId: number;
+      dictName: string;
+      dictType: string;
+      status: '0' | '1';
+      delFlag: string;
+    };
+
+    type DictSearchParams = Partial<Pick<Dict, 'dictName' | 'dictType' | 'status'> & CommonSearchParams>;
+
+    type DictList = Common.PaginatingQueryRecord<Dict>;
   }
 }
